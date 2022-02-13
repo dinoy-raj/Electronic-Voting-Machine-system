@@ -40,4 +40,7 @@ public class MySQL {
 
         }
     }
+
+    public void test() {
+    }
 }

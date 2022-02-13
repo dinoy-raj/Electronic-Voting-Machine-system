@@ -30,8 +30,7 @@ public class Main extends Application {
     public static void main(String[] args) {
         MySQL db = new MySQL();
         db.connectJDBC();
-        db.insertIntoElection(1, "test");
-        db.retrieveData("election");
+        db.test();
         launch(args);
     }
 
