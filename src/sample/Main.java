@@ -245,7 +245,7 @@ public class Main extends Application {
         textE1.setFill(Color.rgb(108,108,108));
         textE1.setFont(font1);
 
-        Text textE2 = new Text("Number Of Candidates  : ");
+        Text textE2 = new Text("Number Of Positions  : ");
         textE2.setX(520);
         textE2.setY(310);
         textE2.setFill(Color.rgb(108,108,108));
