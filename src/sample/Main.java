@@ -803,12 +803,43 @@ public class Main extends Application {
 
         Rectangle rectE2 = new Rectangle();
         rectE2.setHeight(450);
-        rectE2.setWidth(400);
-        rectE2.setX(60);
+        rectE2.setWidth(2);
+        rectE2.setX(450);
         rectE2.setY(55);
-        rectE2.setFill(Color.BLACK);
-        rectE2.setArcWidth(20);
-        rectE2.setArcHeight(20);
+        rectE2.setFill(Color.WHITE);
+        rectE2.setArcWidth(1);
+        rectE2.setArcHeight(1);
+
+
+        Rectangle rectE3= new Rectangle();
+        rectE3.setHeight(10);
+        rectE3.setWidth(3);
+        rectE3.setX(450);
+        rectE3.setY(55);
+        rectE3.setFill(Color.BLACK);
+        rectE3.setArcWidth(3);
+        rectE3.setArcHeight(3);
+
+        Text tE1 = new Text("Ongoing Election");
+//        tE1.setFont(font1);
+        tE1.setFill(Color.BLACK);
+
+        HBox hbE1 = new HBox();
+        hbE1.getChildren().add(rectE3);
+        hbE1.getChildren().add(tE1);
+        hbE1.setSpacing(20);
+
+        hbE1.setAlignment(Pos.CENTER_LEFT);
+
+        SubScene subE2 = new SubScene(hbE1,360,50);
+        VBox vbE1 = new VBox();
+        vbE1.getChildren().add(subE2);
+
+        vbE1.setBackground(Background.EMPTY);
+        SubScene subE1 = new SubScene(vbE1,360,450);
+        subE1.setLayoutY(55);
+        subE1.setLayoutX(55);
+
 
         Text textE1 = new Text("Election Name  : ");
         textE1.setX(520);
@@ -929,6 +960,8 @@ public class Main extends Application {
         groupE.getChildren().add(buttonE1);
         groupE.getChildren().add(eName1);
         groupE.getChildren().add(eName2);
+        groupE.getChildren().add(subE1);
+
 
         groupE1.getChildren().add(groupE);
 
@@ -936,6 +969,23 @@ public class Main extends Application {
 
 
         //VOTE TAB CONTENTS
+
+
+        Image img2 = new Image("sample/right.png");
+        ImageView view2 = new ImageView(img2);
+        view2.setFitHeight(20);
+        view2.setPreserveRatio(true);
+        view2.setPreserveRatio(true);
+
+        VBox vbV1 = new VBox();
+        vbV1.getChildren().add(view2);
+        SubScene subV1 = new SubScene(vbV1,400,600);
+        subV1.setFill(Color.BLACK);
+        subV1.setLayoutX(60);
+        subV1.setLayoutY(60);
+
+
+
         Rectangle rectV1 = new Rectangle();
         rectV1.setHeight(500);
         rectV1.setWidth(940);
@@ -1069,6 +1119,7 @@ public class Main extends Application {
         groupV.getChildren().add(vName1);
         groupV.getChildren().add(vName2);
         groupV.getChildren().add(buttonV1);
+        groupV.getChildren().add(subV1);
 
         groupV.getChildren().add(imageViewV1);
 
@@ -1175,8 +1226,11 @@ public class Main extends Application {
 
         ListView lsR1 = new ListView();
         lsR1.setBackground(Background.EMPTY);
+        lsR1.setStyle("-fx-background-color: #F4F4F4;");
+        lsR1.setSelectionModel(null);
+        lsR1.setFocusTraversable(false);
         lsR1.setBorder(Border.EMPTY);
-        lsR1.setStyle(null);
+
         lsR1.setSelectionModel(null);
 
         int result =3;
