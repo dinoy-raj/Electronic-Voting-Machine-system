@@ -133,6 +133,8 @@ public class Main extends Application {
 
         ListView lsE2 = new ListView();
         lsE2.setBorder(Border.EMPTY);
+        lsE2.setStyle("-fx-background-color:#F4F4F4; -fx-control-inner-background:#F4F4F4  ;-fx-control-inner-background-alt:#F4F4F4");
+        lsE2.setSelectionModel(null);
 
         int u=0;
         while (u!=pos) {
@@ -261,6 +263,8 @@ public class Main extends Application {
         ListView lsE3 = new ListView();
         lsE3.setBorder(Border.EMPTY);
         lsE3.setBackground(Background.EMPTY);
+        lsE3.setStyle("-fx-background-color:#F4F4F4; -fx-control-inner-background:#F4F4F4  ;-fx-control-inner-background-alt:#F4F4F4");
+        lsE3.setSelectionModel(null);
 
 
 
@@ -351,7 +355,7 @@ public class Main extends Application {
         rectE22.setFill(Color.WHITE);
         rectE22.setArcWidth(20);
         rectE22.setArcHeight(20);
-        rectE22.setEffect(ds);
+//        rectE22.setEffect(ds);
 
         Rectangle rectE23 = new Rectangle();
         rectE23.setHeight(60);
@@ -381,10 +385,12 @@ public class Main extends Application {
         hb2.getChildren().add(tE21);
         hb2.setSpacing(40);
         hb2.setAlignment(Pos.CENTER_LEFT);
+        hb2.setBackground(Background.EMPTY);
 
         StackPane sp = new StackPane(rectE22,hb2);
 
         SubScene sub2 = new SubScene(sp,850,70);
+        sub2.setFill(Color.rgb(246, 246, 246));
         l1.getItems().add(sub2);
 
 
@@ -499,8 +505,10 @@ public class Main extends Application {
             hb.getChildren().add(ch);
             hb.setSpacing(40);
             hb.setAlignment(Pos.CENTER);
+            hb.setBackground(Background.EMPTY);
 
             SubScene sub1 = new SubScene(hb,850,70);
+            sub1.setFill(Color.rgb(246, 246, 246));
 
             l1.getItems().add(sub1);
 
@@ -591,8 +599,6 @@ public class Main extends Application {
 
         ch.selectedProperty().addListener(
                 (ObservableValue<? extends Boolean> ov, Boolean old_val, Boolean new_val) -> {
-
-
                     if(ch.isSelected())
                     {
                         eName3.setEditable(false);
@@ -616,11 +622,12 @@ public class Main extends Application {
         hb.getChildren().add(ch);
         hb.setSpacing(60);
         hb.setAlignment(Pos.CENTER);
+        hb.setBackground(Background.EMPTY);
 
         SubScene s1 = new SubScene(hb,830,70);
 
         l1.setBorder(Border.EMPTY);
-        s1.setFill(Color.WHITE);
+        s1.setFill(Color.rgb(246, 246, 246));
         l1.setBackground(Background.EMPTY);
 
         l1.getItems().add(s1);
@@ -840,7 +847,7 @@ public class Main extends Application {
         lsE1.setBorder(Border.EMPTY);
         lsE1.setSelectionModel(null);
         lsE1.setBackground(Background.EMPTY);
-        lsE1.setStyle("-fx-background-color: transparent;");
+        lsE1.setStyle("-fx-background-color:#F4F4F4; -fx-control-inner-background:#F4F4F4  ;-fx-control-inner-background-alt:#F4F4F4");
 
         int n=4;
         while(n!=0)
@@ -1299,7 +1306,7 @@ public class Main extends Application {
 
         ListView lsR1 = new ListView();
         lsR1.setBackground(Background.EMPTY);
-        lsR1.setStyle("-fx-background-color: #F4F4F4;");
+        lsR1.setStyle("-fx-background-color:#FFFFFF; -fx-control-inner-background:#FFFFFF  ;-fx-control-inner-background-alt:#FFFFFF");
         lsR1.setSelectionModel(null);
         lsR1.setFocusTraversable(false);
         lsR1.setBorder(Border.EMPTY);
@@ -1407,7 +1414,7 @@ public class Main extends Application {
         rectR2.setFill(Color.WHITE);
         rectR2.setArcWidth(20);
         rectR2.setArcHeight(20);
-        rectR2.setEffect(ds);
+//        rectR2.setEffect(ds);
 
         Text Ename = new Text("Election 21");
 
@@ -1416,13 +1423,14 @@ public class Main extends Application {
         hb.getChildren().add(Ename);
         hb.setSpacing(40);
         hb.setAlignment(Pos.CENTER_LEFT);
+        hb.setBackground(Background.EMPTY);
 
 
 
 
         StackPane sp = new StackPane(rectR2,hb);
         SubScene sc = new SubScene(sp,340,100);
-        sc.setFill(Color.WHITE);
+        sc.setFill(Color.rgb(246,246,246));
         lsE1.getItems().add(sc);
 
     }
@@ -1460,7 +1468,7 @@ public class Main extends Application {
 
 
         Rectangle rectR5 = new Rectangle();
-        rectR5.setHeight(1);
+        rectR5.setHeight(2);
         rectR5.setWidth(800);
         rectR5.setArcWidth(5);
         rectR5.setArcHeight(5);
