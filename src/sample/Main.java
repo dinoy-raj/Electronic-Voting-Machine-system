@@ -58,6 +58,7 @@ public class Main extends Application {
     Group groupE1 = new Group();
     Group groupE = new Group();
     Group groupE0 = new Group();
+    Group groupE2 = new Group();
 
 
     //function switch sub scene(tabs) on selecting
@@ -161,6 +162,10 @@ public class Main extends Application {
             @Override
             public void handle(ActionEvent actionEvent) {
 
+                lsE2.getItems().clear();
+                switchE2group(g1,groupE0,pos,Integer.parseInt(s2));
+
+
             }
         });
 
@@ -205,6 +210,243 @@ public class Main extends Application {
         g1.getChildren().add(groupE0);
 
     }
+
+
+
+
+
+
+
+    //function switch subwindows in election tab
+    public void switchE2group(Group g1,Group g3,int pos,int num){
+
+        ListView lsE3 = new ListView();
+        lsE3.setBorder(Border.EMPTY);
+        Font font1 = Font.font("Helvetica", FontWeight.BOLD, 14);
+
+
+
+        int u=0;
+        while (u!=pos) {
+            addItem2(lsE3, u,num);
+            u++;
+        }
+
+
+
+        //PROCEED button
+        Button buttonE1 = new Button();
+        buttonE1.setText("Confirm");
+        buttonE1.setFont(font1);
+        buttonE1.setTextFill(Color.WHITE);
+        buttonE1.setLayoutX(520);
+        buttonE1.setLayoutY(450);
+        buttonE1.setPrefSize(390,40);
+        buttonE1.setStyle(
+                "-fx-background-color: #000000; focused:-fx-background-color: #FFFFFF ;"
+        );
+        buttonE1.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+
+
+
+            }
+        });
+
+
+        HBox hb = new HBox();
+        hb.getChildren().add(buttonE1);
+        hb.setAlignment(Pos.CENTER);
+
+        SubScene s1 = new SubScene(hb,830,70);
+
+        buttonE1.setOnMouseEntered(mouseEvent -> {
+            s1.setCursor(Cursor.HAND);
+        });
+
+        buttonE1.setOnMouseExited(mouseEvent ->{
+            s1.setCursor(Cursor.DEFAULT);
+        });
+
+        lsE3.getItems().add(s1);
+
+
+
+
+        SubScene subE23 = new SubScene(lsE3,860,380);
+        subE23.setFill(Color.rgb(246, 246, 246));
+        subE23.setLayoutX(60);
+        subE23.setLayoutY(130);
+
+
+
+        groupE2.getChildren().add(subE23);
+
+
+
+
+
+        g1.getChildren().remove(g3);
+        g1.getChildren().add(groupE2);
+
+    }
+
+    public void addItem2(ListView l1, int i, int num)
+    {
+        String s = Integer.toString(i);
+        //shadow effect to bottom navbar
+        DropShadow ds = new DropShadow();
+        ds.setColor(Color.rgb(230, 230, 230));
+        ds.setBlurType(BlurType.GAUSSIAN);
+        ds.setRadius(200);
+        ds.setSpread(.03);
+
+        //ELECTION TAB2 CONTENT
+
+        Rectangle rectE21 = new Rectangle();
+        rectE21.setHeight(500);
+        rectE21.setWidth(940);
+        rectE21.setX(30);
+        rectE21.setY(30);
+        rectE21.setFill(Color.rgb(246, 246, 246));
+        rectE21.setArcWidth(20);
+        rectE21.setArcHeight(20);
+
+        Rectangle rectE22 = new Rectangle();
+        rectE22.setHeight(60);
+        rectE22.setWidth(870);
+        rectE22.setX(60);
+        rectE22.setY(55);
+        rectE22.setFill(Color.WHITE);
+        rectE22.setArcWidth(20);
+        rectE22.setArcHeight(20);
+        rectE22.setEffect(ds);
+
+
+        Text tE21 = new Text(s1);
+
+        tE21.setX(120);
+        tE21.setY(90);
+
+        l1.getItems().add(rectE21);
+        l1.getItems().add(rectE22);
+        l1.getItems().add(tE21);
+
+
+
+
+       int n=0;
+        while(n!=num){
+
+            //TextField 1
+            TextField eName3 = new TextField();
+            eName3.setPromptText("Position name "+s);
+            eName3.setPrefSize(300,40);
+            eName3.setLayoutX(520);
+            eName3.setPadding(new Insets(10, 10, 10, 25));
+            eName3.setLayoutY(200);
+            eName3.setStyle("-fx-focus-color: transparent;-fx-background-color: -fx-control-inner-background;");
+            eName3.setEffect(ds);
+
+
+
+
+            //TextField 1
+            TextField eName4 = new TextField();
+            eName4.setPromptText("0");
+            eName4.setPrefSize(300,40);
+            eName4.setLayoutX(520);
+            eName4.setPadding(new Insets(10, 10, 10, 25));
+            eName4.setLayoutY(200);
+            eName4.setStyle("-fx-focus-color: transparent;-fx-background-color: -fx-control-inner-background;");
+            eName4.setEffect(ds);
+
+            //checkbox
+            CheckBox ch = new CheckBox();
+            ch.setCursor(Cursor.HAND);
+
+            if(eName3.getText().isEmpty() ||eName4.getText().isEmpty()  )
+            {
+                ch.setDisable(true);
+            }
+            else
+            {
+                ch.setDisable(false);
+
+            }
+
+            eName3.textProperty().addListener(
+                    (observable, oldValue, newValue)->{
+                        if(eName3.getText().isEmpty() ||eName4.getText().isEmpty()  )
+                        {
+                            ch.setDisable(true);
+                        }
+                        else
+                        {
+                            ch.setDisable(false);
+
+                        }
+
+                    }
+            );
+
+            eName4.textProperty().addListener(
+                    (observable, oldValue, newValue)->{
+                        if(eName3.getText().isEmpty() ||eName4.getText().isEmpty()  )
+                        {
+                            ch.setDisable(true);
+                        }
+                        else
+                        {
+                            ch.setDisable(false);
+
+                        }
+
+                    }
+            );
+
+            ch.selectedProperty().addListener(
+                    (ObservableValue<? extends Boolean> ov, Boolean old_val, Boolean new_val) -> {
+
+
+                        if(ch.isSelected())
+                        {
+                            eName3.setEditable(false);
+                            eName4.setEditable(false);
+                            s1 = eName3.getText();
+                            s2 = eName4.getText();
+                        }
+                        if(!ch.isSelected())
+                        {
+                            eName3.setEditable(true);
+                            eName4.setEditable(true);
+                        }
+
+                        System.out.println(s1);
+                        System.out.println(s2);
+                    });
+
+            HBox hb = new HBox();
+            hb.getChildren().add(eName3);
+            hb.getChildren().add(eName4);
+            hb.getChildren().add(ch);
+            hb.setSpacing(60);
+            hb.setAlignment(Pos.CENTER);
+
+            SubScene sub1 = new SubScene(hb,830,70);
+
+            l1.getItems().add(sub1);
+
+            n++;
+        }
+
+    }
+
+
+
+
+
 
     //add item to list
     public void addItem(ListView l1, int i)
