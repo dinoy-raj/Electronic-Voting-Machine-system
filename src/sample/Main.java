@@ -971,16 +971,17 @@ public class Main extends Application {
         //VOTE TAB CONTENTS
 
 
-        Image img2 = new Image("sample/right.png");
+        Image img2 = new Image("sample/election3.png");
         ImageView view2 = new ImageView(img2);
-        view2.setFitHeight(20);
+        view2.setFitHeight(100);
         view2.setPreserveRatio(true);
         view2.setPreserveRatio(true);
 
         VBox vbV1 = new VBox();
+        vbV1.setBackground(Background.EMPTY);
+        vbV1.setAlignment(Pos.CENTER);
         vbV1.getChildren().add(view2);
-        SubScene subV1 = new SubScene(vbV1,400,600);
-        subV1.setFill(Color.BLACK);
+        SubScene subV1 = new SubScene(vbV1,400,450);
         subV1.setLayoutX(60);
         subV1.setLayoutY(60);
 
@@ -1188,6 +1189,18 @@ public class Main extends Application {
         hb2.getChildren().add(cm);
         hb2.setSpacing(40);
         hb2.setAlignment(Pos.CENTER_LEFT);
+
+        Image img5 = new Image("sample/elction1.png");
+        ImageView view5 = new ImageView(img1);
+        view5.setFitHeight(40);
+        view5.setPreserveRatio(true);
+        view5.setPreserveRatio(true);
+
+        HBox hb8 = new HBox();
+        hb8.getChildren().add(view5);
+        hb8.setSpacing(40);
+        hb8.setAlignment(Pos.CENTER_RIGHT);
+
 
         StackPane sp = new StackPane(rectR2,hb2);
 
