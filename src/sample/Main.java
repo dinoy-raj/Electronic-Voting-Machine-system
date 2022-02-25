@@ -11,11 +11,8 @@ import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.effect.*;
-import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.Border;
@@ -965,8 +962,8 @@ public class Main extends Application {
         Image i = new Image(new File("sample/vot.gif").toURI().toString());
         ImageView imageViewV1 = new ImageView(i);
 
-        imageViewV1.setX(300);
-        imageViewV1.setX(100);
+        imageViewV1.setX(30);
+        imageViewV1.setX(10);
         imageViewV1.setPreserveRatio(true);
         imageViewV1.setCache(true);
         imageViewV1.setFitWidth(300);
@@ -986,8 +983,9 @@ public class Main extends Application {
 
         Image img1 = new Image("sample/right.png");
         ImageView viewl = new ImageView(img1);
-        view.setFitHeight(20);
-        view.setPreserveRatio(true);
+        viewl.setFitHeight(20);
+        viewl.setPreserveRatio(true);
+        viewl.setPreserveRatio(true);
 
 
         Button buttonV1 = new Button();
@@ -1084,19 +1082,74 @@ public class Main extends Application {
         rectR2.setArcHeight(20);
         rectR2.setEffect(ds);
 
+
+
         Rectangle rectR3 = new Rectangle();
-        rectR3.setHeight(300);
-        rectR3.setWidth(870);
-        rectR3.setX(60);
-        rectR3.setY(200);
-        rectR3.setFill(Color.WHITE);
-        rectR3.setArcWidth(20);
-        rectR3.setArcHeight(20);
+        rectR3.setHeight(60);
+        rectR3.setWidth(20);
+        rectR3.setFill(Color.TRANSPARENT);
+
+        Rectangle rectE24 = new Rectangle();
+        rectE24.setHeight(30);
+        rectE24.setWidth(8);
+        rectE24.setX(60);
+        rectE24.setY(55);
+        rectE24.setFill(Color.BLACK);
+        rectE24.setArcWidth(5);
+        rectE24.setArcHeight(5);
+        rectE24.setEffect(ds);
+
+        ComboBox cm = new ComboBox();
+        cm.setBorder(Border.EMPTY);
+        cm.setBackground(Background.EMPTY);
+        cm.getSelectionModel().selectFirst();
+
+        cm.getItems().add("Union Election 21");
+        cm.getItems().add("College Election 22");
+        cm.getItems().add("Teachers Election 23");
+        cm.getItems().add("Staff Election 21");
+        cm.getItems().add("Management Election 22");
+        cm.getItems().add("College Election 23");
+
+        cm.setValue("Union Election 21");
+        cm.setOnMouseEntered((MouseEvent)->{
+            sceneR.setCursor(Cursor.HAND);
+        });
+
+        cm.setOnMouseExited((MouseEvent)->{
+            sceneR.setCursor(Cursor.DEFAULT);
+        });
+
+        HBox hb2 = new HBox();
+        hb2.getChildren().add(rectR3);
+        hb2.getChildren().add(rectE24);
+        hb2.getChildren().add(cm);
+        hb2.setSpacing(40);
+        hb2.setAlignment(Pos.CENTER_LEFT);
+
+        StackPane sp = new StackPane(rectR2,hb2);
+
+        SubScene sub2 = new SubScene(sp,870,100);
+        sub2.setLayoutX(60);
+        sub2.setLayoutY(55);
+
+
+
+        Rectangle rectR4 = new Rectangle();
+        rectR4.setHeight(300);
+        rectR4.setWidth(870);
+        rectR4.setX(60);
+        rectR4.setY(200);
+        rectR4.setFill(Color.WHITE);
+        rectR4.setArcWidth(20);
+        rectR4.setArcHeight(20);
 
 
         groupR.getChildren().add(rectR1);
-        groupR.getChildren().add(rectR2);
-        groupR.getChildren().add(rectR3);
+        groupR.getChildren().add(sub2);
+        groupR.getChildren().add(rectR4);
+
+
 
 
         //Children added to main scene (bottom navbar)
