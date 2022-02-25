@@ -38,7 +38,6 @@ public class Main extends Application {
 
     // data inputs
     String election_Name;
-    String no_Position;
     int position;
     String s1,s2;
 
@@ -211,13 +210,16 @@ public class Main extends Application {
     }
 
 
-
-
-
-
-
     //function switch subwindows in election tab
     public void switchE2group(Group g1,Group g3,int pos,int num){
+
+        Font font1 = Font.font("Helvetica", FontWeight.BOLD, 14);
+
+        DropShadow ds = new DropShadow();
+        ds.setColor(Color.rgb(230, 230, 230));
+        ds.setBlurType(BlurType.GAUSSIAN);
+        ds.setRadius(200);
+        ds.setSpread(.03);
 
 
 
@@ -232,10 +234,38 @@ public class Main extends Application {
         rectE21.setArcWidth(20);
         rectE21.setArcHeight(20);
 
+
+        Rectangle rectE22 = new Rectangle();
+        rectE22.setHeight(60);
+        rectE22.setWidth(870);
+        rectE22.setX(60);
+        rectE22.setY(55);
+        rectE22.setFill(Color.WHITE);
+        rectE22.setArcWidth(20);
+        rectE22.setArcHeight(20);
+        rectE22.setEffect(ds);
+
+
+        Text tE21 = new Text("Name");
+        Text tE22 = new Text("Gender");
+        Text tE23 = new Text("Department");
+        Text tE24 = new Text("Confirm");
+
+        tE21.setX(190);
+        tE21.setY(90);
+
+        tE22.setX(425);
+        tE22.setY(90);
+
+        tE23.setX(565);
+        tE23.setY(90);
+
+        tE24.setX(790);
+        tE24.setY(90);
+
         ListView lsE3 = new ListView();
         lsE3.setBorder(Border.EMPTY);
         lsE3.setBackground(Background.EMPTY);
-        Font font1 = Font.font("Helvetica", FontWeight.BOLD, 14);
 
 
 
@@ -289,12 +319,17 @@ public class Main extends Application {
 
 
 
-        SubScene subE23 = new SubScene(lsE3,880,450);
+        SubScene subE23 = new SubScene(lsE3,880,400);
         subE23.setFill(Color.rgb(246, 246, 246));
         subE23.setLayoutX(60);
-        subE23.setLayoutY(50);
+        subE23.setLayoutY(150);
 
         groupE2.getChildren().add(rectE21);
+        groupE2.getChildren().add(rectE22);
+        groupE2.getChildren().add(tE21);
+        groupE2.getChildren().add(tE22);
+        groupE2.getChildren().add(tE23);
+        groupE2.getChildren().add(tE24);
         groupE2.getChildren().add(subE23);
 
         g1.getChildren().remove(g3);
@@ -314,37 +349,23 @@ public class Main extends Application {
 
 
 
-        Rectangle rectE22 = new Rectangle();
-        rectE22.setHeight(60);
-        rectE22.setWidth(870);
-        rectE22.setX(60);
-        rectE22.setY(55);
-        rectE22.setFill(Color.WHITE);
-        rectE22.setArcWidth(20);
-        rectE22.setArcHeight(20);
-        rectE22.setEffect(ds);
-
-
-
-
         Text tE21 = new Text(s1);
 
         tE21.setX(120);
         tE21.setY(90);
-
-        l1.getItems().add(rectE22);
         l1.getItems().add(tE21);
 
 
 
 
        int n=0;
+       int t;
         while(n!=num){
-
+            t=n+1;
             //TextField 1
             TextField eName3 = new TextField();
-            eName3.setPromptText("Position name "+s);
-            eName3.setPrefSize(300,40);
+            eName3.setPromptText("Candidate name "+t);
+            eName3.setPrefSize(200,40);
             eName3.setLayoutX(520);
             eName3.setPadding(new Insets(10, 10, 10, 25));
             eName3.setLayoutY(200);
@@ -356,13 +377,23 @@ public class Main extends Application {
 
             //TextField 1
             TextField eName4 = new TextField();
-            eName4.setPromptText("0");
-            eName4.setPrefSize(300,40);
+            eName4.setPromptText("Male");
+            eName4.setPrefSize(100,40);
             eName4.setLayoutX(520);
             eName4.setPadding(new Insets(10, 10, 10, 25));
             eName4.setLayoutY(200);
             eName4.setStyle("-fx-focus-color: transparent;-fx-background-color: -fx-control-inner-background;");
             eName4.setEffect(ds);
+
+            //TextField 1
+            TextField eName5= new TextField();
+            eName5.setPromptText("CSE");
+            eName5.setPrefSize(200,40);
+            eName5.setLayoutX(520);
+            eName5.setPadding(new Insets(10, 10, 10, 25));
+            eName5.setLayoutY(200);
+            eName5.setStyle("-fx-focus-color: transparent;-fx-background-color: -fx-control-inner-background;");
+            eName5.setEffect(ds);
 
             //checkbox
             CheckBox ch = new CheckBox();
@@ -432,11 +463,12 @@ public class Main extends Application {
             HBox hb = new HBox();
             hb.getChildren().add(eName3);
             hb.getChildren().add(eName4);
+            hb.getChildren().add(eName5);
             hb.getChildren().add(ch);
-            hb.setSpacing(60);
+            hb.setSpacing(40);
             hb.setAlignment(Pos.CENTER);
 
-            SubScene sub1 = new SubScene(hb,830,70);
+            SubScene sub1 = new SubScene(hb,865,70);
 
             l1.getItems().add(sub1);
 
@@ -444,10 +476,6 @@ public class Main extends Application {
         }
 
     }
-
-
-
-
 
 
     //add item to list
