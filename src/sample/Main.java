@@ -1259,7 +1259,7 @@ public class Main extends Application {
 
     private void resultList(ListView l1, String C_name, String C_position, int i) {
 
-        Font font1 = Font.font("Helvetica", FontWeight.BOLD, 14);
+        Font font1 = Font.font("Helvetica", FontWeight.BOLD, 10);
 
         Text tR1 = new Text(C_name);
         Text tR2 = new Text(C_position);
@@ -1271,9 +1271,9 @@ public class Main extends Application {
         buttonV1.setFont(font1);
         buttonV1.setText("Won");
         buttonV1.setTextFill(Color.WHITE);
-        buttonV1.setPrefSize(15,50);
+        buttonV1.setPrefSize(40,15);
         buttonV1.setStyle(
-                "-fx-background-color: #000000; focused:-fx-background-color: #FFFFFF ;"
+                "-fx-background-color: #349632; "
         );
 
 
