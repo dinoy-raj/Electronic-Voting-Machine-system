@@ -2,6 +2,8 @@ package sample;
 
 import database.MySQL;
 import javafx.application.Application;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -9,6 +11,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.effect.*;
@@ -37,6 +40,7 @@ public class Main extends Application {
     String election_Name;
     String no_Position;
     int position;
+    String s1,s2;
 
     public static void main(String[] args) {
         MySQL db = new MySQL();
@@ -54,8 +58,6 @@ public class Main extends Application {
     Group groupE1 = new Group();
     Group groupE = new Group();
     Group groupE0 = new Group();
-    Group groupF = new Group();
-
 
 
     //function switch sub scene(tabs) on selecting
@@ -122,12 +124,16 @@ public class Main extends Application {
 
         Text tE21 = new Text("Position");
         Text tE22 = new Text("Number Of Candidates");
+        Text tE23 = new Text("Confirm");
 
-        tE21.setX(200);
+        tE21.setX(120);
         tE21.setY(90);
 
-        tE22.setX(600);
+        tE22.setX(480);
         tE22.setY(90);
+
+        tE23.setX(820);
+        tE23.setY(90);
 
 
 
@@ -154,7 +160,7 @@ public class Main extends Application {
         buttonE1.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                
+
             }
         });
 
@@ -188,6 +194,7 @@ public class Main extends Application {
         groupE0.getChildren().add(rectE22);
         groupE0.getChildren().add(tE21);
         groupE0.getChildren().add(tE22);
+        groupE0.getChildren().add(tE23);
         groupE0.getChildren().add(subE23);
 
 
@@ -221,6 +228,7 @@ public class Main extends Application {
         eName3.setStyle("-fx-focus-color: transparent;-fx-background-color: -fx-control-inner-background;");
         eName3.setEffect(ds);
 
+
         //TextField 1
         TextField eName4 = new TextField();
         eName4.setPromptText("0");
@@ -231,9 +239,34 @@ public class Main extends Application {
         eName4.setStyle("-fx-focus-color: transparent;-fx-background-color: -fx-control-inner-background;");
         eName4.setEffect(ds);
 
+        //checkbox
+        CheckBox ch = new CheckBox();
+        ch.setCursor(Cursor.HAND);
+
+        ch.selectedProperty().addListener(
+                (ObservableValue<? extends Boolean> ov, Boolean old_val, Boolean new_val) -> {
+
+                    if(ch.isSelected())
+                    {
+                        eName3.setEditable(false);
+                        eName4.setEditable(false);
+                        s1 = eName3.getText();
+                        s2 = eName4.getText();
+                    }
+                    if(!ch.isSelected())
+                    {
+                        eName3.setEditable(true);
+                        eName4.setEditable(true);
+                    }
+
+                    System.out.println(s1);
+                    System.out.println(s2);
+                });
+
         HBox hb = new HBox();
         hb.getChildren().add(eName3);
         hb.getChildren().add(eName4);
+        hb.getChildren().add(ch);
         hb.setSpacing(60);
         hb.setAlignment(Pos.CENTER);
 
