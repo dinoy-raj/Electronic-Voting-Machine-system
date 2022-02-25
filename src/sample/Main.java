@@ -1165,7 +1165,7 @@ public class Main extends Application {
         lsR1.setStyle(null);
         lsR1.setSelectionModel(null);
 
-        int result =5;
+        int result =3;
 
         while (result!=0)
         {
