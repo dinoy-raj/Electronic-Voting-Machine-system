@@ -984,6 +984,29 @@ public class Main extends Application {
         viewl.setPreserveRatio(true);
         viewl.setPreserveRatio(true);
 
+        //TextField 1
+        TextField vName1 = new TextField();
+        vName1.setPrefSize(370,40);
+        vName1.setLayoutX(520);
+        vName1.setPadding(new Insets(10, 10, 10, 25));
+        vName1.setLayoutY(170);
+        vName1.setStyle("-fx-focus-color: transparent;-fx-background-color: #EEEEEE;");
+        vName1.setEffect(ds);
+
+
+
+        //TextField2
+        PasswordField vName2 = new PasswordField();
+        vName2.setPrefSize(370,40);
+        vName2.setLayoutX(520);
+        vName2.setLayoutY(310);
+        vName2.setPadding(new Insets(10, 10, 10, 25));
+        vName2.setStyle("-fx-focus-color:transparent;-fx-background-color: #EEEEEE;");
+        vName2.setEffect(ds);
+
+        vName2.setVisible(true);
+
+
 
         Button buttonV1 = new Button();
         buttonV1.setGraphic(viewl);
@@ -998,24 +1021,15 @@ public class Main extends Application {
                 "-fx-background-color: #000000; focused:-fx-background-color: #FFFFFF ;"
         );
 
+        buttonV1.setOnAction((actionEvent)->{
+            if(vName1.getText().isEmpty())
+            {
 
-        //TextField 1
-        TextField vName1 = new TextField();
-        vName1.setPrefSize(370,40);
-        vName1.setLayoutX(520);
-        vName1.setPadding(new Insets(10, 10, 10, 25));
-        vName1.setLayoutY(170);
-        vName1.setStyle("-fx-focus-color: transparent;-fx-background-color: #EEEEEE;");
-        vName1.setEffect(ds);
+            }
 
-        //TextField2
-        TextField vName2 = new TextField();
-        vName2.setPrefSize(370,40);
-        vName2.setLayoutX(520);
-        vName2.setLayoutY(310);
-        vName2.setPadding(new Insets(10, 10, 10, 25));
-        vName2.setStyle("-fx-focus-color:transparent;-fx-background-color: #EEEEEE;");
-        vName2.setEffect(ds);
+        });
+
+
 
 
 
@@ -1245,34 +1259,35 @@ public class Main extends Application {
 
     private void resultList(ListView l1, String C_name, String C_position, int i) {
 
+        Font font1 = Font.font("Helvetica", FontWeight.BOLD, 14);
+
         Text tR1 = new Text(C_name);
         Text tR2 = new Text(C_position);
-        Text tR3 = new Text("won");
-        tR3.setFill(Color.WHITE);
-
-        Rectangle rectR4 = new Rectangle();
-        rectR4.setHeight(20);
-        rectR4.setWidth(40);
-        rectR4.setFill(Color.GREEN);
-        rectR4.setArcWidth(5);
-        rectR4.setArcHeight(5);
-
-        StackPane sp = new StackPane(rectR4,tR3);
-        sp.setAlignment(Pos.CENTER);
 
 
 
+
+        Button buttonV1 = new Button();
+        buttonV1.setFont(font1);
+        buttonV1.setText("Won");
+        buttonV1.setTextFill(Color.WHITE);
+        buttonV1.setPrefSize(15,50);
+        buttonV1.setStyle(
+                "-fx-background-color: #000000; focused:-fx-background-color: #FFFFFF ;"
+        );
 
 
         HBox hb3 = new HBox();
         hb3.getChildren().add(tR1);
         hb3.getChildren().add(tR2);
-        hb3.getChildren().add(sp);
+        hb3.getChildren().add(buttonV1);
         hb3.setSpacing(250);
         hb3.setBackground(Background.EMPTY);
         hb3.setAlignment(Pos.BOTTOM_CENTER);
 
         SubScene scR2 = new SubScene(hb3,850,30);
+
+
 
         Rectangle rectR5 = new Rectangle();
         rectR5.setHeight(1);
