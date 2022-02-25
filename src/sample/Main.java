@@ -14,10 +14,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.effect.*;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.Border;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -1135,6 +1132,7 @@ public class Main extends Application {
 
 
 
+
         Rectangle rectR4 = new Rectangle();
         rectR4.setHeight(300);
         rectR4.setWidth(870);
@@ -1144,10 +1142,61 @@ public class Main extends Application {
         rectR4.setArcWidth(20);
         rectR4.setArcHeight(20);
 
+        Text tR1 = new Text("Name");
+        Text tR2 = new Text("Position");
+        Text tR3 = new Text("Result");
+
+        HBox hb3 = new HBox();
+        hb3.getChildren().add(tR1);
+        hb3.getChildren().add(tR2);
+        hb3.getChildren().add(tR3);
+        hb3.setSpacing(250);
+        hb3.setBackground(Background.EMPTY);
+        hb3.setAlignment(Pos.BOTTOM_CENTER);
+
+        SubScene scR1 = new SubScene(hb3,870,50);
+        scR1.setLayoutX(60);
+        scR1.setLayoutY(210);
+
+
+        ListView lsR1 = new ListView();
+        lsR1.setBackground(Background.EMPTY);
+        lsR1.setBorder(Border.EMPTY);
+        lsR1.setStyle(null);
+        lsR1.setSelectionModel(null);
+
+        int result =1;
+
+        while (result!=0)
+        {
+            resultList(lsR1,"dinoy raj","chairman",1);
+            result--;
+        }
+
+
+        lsR1.getItems().add("hello");
+
+        SubScene scR2 = new SubScene(lsR1,870,200);
+        scR1.setLayoutX(60);
+        scR1.setLayoutY(300);
+
+        VBox vb2 = new VBox();
+        vb2.setBackground(Background.EMPTY);
+        vb2.getChildren().add(scR1);
+        vb2.getChildren().add(scR2);
+        vb2.setSpacing(20);
+        vb2.setAlignment(Pos.TOP_CENTER);
+
+        StackPane sp1 = new StackPane(rectR4,vb2);
+
+        SubScene sub3 = new SubScene(sp1,870,300);
+        sub3.setLayoutX(60);
+        sub3.setLayoutY(200);
+
 
         groupR.getChildren().add(rectR1);
         groupR.getChildren().add(sub2);
-        groupR.getChildren().add(rectR4);
+        groupR.getChildren().add(sub3);
 
 
 
@@ -1175,6 +1224,43 @@ public class Main extends Application {
         primaryStage.setScene(scene);
         primaryStage.setResizable(false);
         primaryStage.show();
+    }
+
+    private void resultList(ListView l1, String C_name, String C_position, int i) {
+
+        Text tR1 = new Text(C_name);
+        Text tR2 = new Text(C_position);
+        Text tR3 = new Text("won");
+
+        Rectangle rectR4 = new Rectangle();
+        rectR4.setHeight(30);
+        rectR4.setWidth(40);
+        rectR4.setFill(Color.GREEN);
+        rectR4.setArcWidth(5);
+        rectR4.setArcHeight(5);
+
+
+
+        HBox hb3 = new HBox();
+        hb3.getChildren().add(tR1);
+        hb3.getChildren().add(tR2);
+        hb3.getChildren().add(tR3);
+        hb3.setSpacing(250);
+        hb3.setBackground(Background.EMPTY);
+        hb3.setAlignment(Pos.BOTTOM_CENTER);
+
+        SubScene scR2 = new SubScene(hb3,850,20);
+
+        Rectangle rectR5 = new Rectangle();
+        rectR5.setHeight(10);
+        rectR5.setWidth(800);
+        rectR5.setArcWidth(5);
+        rectR5.setArcHeight(5);
+
+        l1.getItems().add(scR2);
+
+
+
     }
 
 }
