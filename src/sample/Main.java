@@ -229,6 +229,8 @@ public class Main extends Application {
         eName3.setEffect(ds);
 
 
+
+
         //TextField 1
         TextField eName4 = new TextField();
         eName4.setPromptText("0");
@@ -243,8 +245,49 @@ public class Main extends Application {
         CheckBox ch = new CheckBox();
         ch.setCursor(Cursor.HAND);
 
+        if(eName3.getText().isEmpty() ||eName4.getText().isEmpty()  )
+        {
+            ch.setDisable(true);
+        }
+        else
+        {
+            ch.setDisable(false);
+
+        }
+
+        eName3.textProperty().addListener(
+                (observable, oldValue, newValue)->{
+                    if(eName3.getText().isEmpty() ||eName4.getText().isEmpty()  )
+                    {
+                        ch.setDisable(true);
+                    }
+                    else
+                    {
+                        ch.setDisable(false);
+
+                    }
+
+                }
+        );
+
+        eName4.textProperty().addListener(
+                (observable, oldValue, newValue)->{
+                    if(eName3.getText().isEmpty() ||eName4.getText().isEmpty()  )
+                    {
+                        ch.setDisable(true);
+                    }
+                    else
+                    {
+                        ch.setDisable(false);
+
+                    }
+
+                }
+        );
+
         ch.selectedProperty().addListener(
                 (ObservableValue<? extends Boolean> ov, Boolean old_val, Boolean new_val) -> {
+
 
                     if(ch.isSelected())
                     {
