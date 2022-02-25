@@ -901,13 +901,13 @@ public class Main extends Application {
 
         Text textE1 = new Text("Election Name  : ");
         textE1.setX(520);
-        textE1.setY(180);
+        textE1.setY(220);
         textE1.setFill(Color.rgb(108,108,108));
         textE1.setFont(font1);
 
         Text textE2 = new Text("Number Of Positions  : ");
         textE2.setX(520);
-        textE2.setY(310);
+        textE2.setY(340);
         textE2.setFill(Color.rgb(108,108,108));
         textE2.setFont(font1);
 
@@ -926,7 +926,7 @@ public class Main extends Application {
         eName1.setPrefSize(400,40);
         eName1.setLayoutX(520);
         eName1.setPadding(new Insets(10, 10, 10, 25));
-        eName1.setLayoutY(200);
+        eName1.setLayoutY(240);
         eName1.setStyle("-fx-focus-color: transparent;-fx-background-color: -fx-control-inner-background;");
         eName1.setEffect(ds);
 
@@ -935,7 +935,7 @@ public class Main extends Application {
         eName2.setPromptText("Ex  :  10 or 15...");
         eName2.setPrefSize(400,40);
         eName2.setLayoutX(520);
-        eName2.setLayoutY(330);
+        eName2.setLayoutY(365);
         eName2.setPadding(new Insets(10, 10, 10, 25));
         eName2.setStyle("-fx-focus-color:transparent;-fx-background-color: -fx-control-inner-background;");
         eName1.setEffect(ds);
