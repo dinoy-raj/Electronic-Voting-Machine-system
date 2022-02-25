@@ -93,8 +93,7 @@ public class Main extends Application {
 
 
         Font font1 = Font.font("Helvetica", FontWeight.BOLD, 14);
-
-        //shadow effect to bottom navbar
+        
         DropShadow ds = new DropShadow();
         ds.setColor(Color.rgb(230, 230, 230));
         ds.setBlurType(BlurType.GAUSSIAN);
@@ -220,6 +219,19 @@ public class Main extends Application {
     //function switch subwindows in election tab
     public void switchE2group(Group g1,Group g3,int pos,int num){
 
+
+
+        //ELECTION TAB2 CONTENT
+
+        Rectangle rectE21 = new Rectangle();
+        rectE21.setHeight(500);
+        rectE21.setWidth(940);
+        rectE21.setX(30);
+        rectE21.setY(30);
+        rectE21.setFill(Color.rgb(246, 246, 246));
+        rectE21.setArcWidth(20);
+        rectE21.setArcHeight(20);
+
         ListView lsE3 = new ListView();
         lsE3.setBorder(Border.EMPTY);
         Font font1 = Font.font("Helvetica", FontWeight.BOLD, 14);
@@ -279,13 +291,8 @@ public class Main extends Application {
         subE23.setLayoutX(60);
         subE23.setLayoutY(130);
 
-
-
+        groupE0.getChildren().add(rectE21);
         groupE2.getChildren().add(subE23);
-
-
-
-
 
         g1.getChildren().remove(g3);
         g1.getChildren().add(groupE2);
@@ -302,16 +309,7 @@ public class Main extends Application {
         ds.setRadius(200);
         ds.setSpread(.03);
 
-        //ELECTION TAB2 CONTENT
 
-        Rectangle rectE21 = new Rectangle();
-        rectE21.setHeight(500);
-        rectE21.setWidth(940);
-        rectE21.setX(30);
-        rectE21.setY(30);
-        rectE21.setFill(Color.rgb(246, 246, 246));
-        rectE21.setArcWidth(20);
-        rectE21.setArcHeight(20);
 
         Rectangle rectE22 = new Rectangle();
         rectE22.setHeight(60);
@@ -324,12 +322,13 @@ public class Main extends Application {
         rectE22.setEffect(ds);
 
 
+
+
         Text tE21 = new Text(s1);
 
         tE21.setX(120);
         tE21.setY(90);
 
-        l1.getItems().add(rectE21);
         l1.getItems().add(rectE22);
         l1.getItems().add(tE21);
 
