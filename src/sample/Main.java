@@ -20,6 +20,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -319,7 +320,7 @@ public class Main extends Application {
 
 
 
-        SubScene subE23 = new SubScene(lsE3,880,400);
+        SubScene subE23 = new SubScene(lsE3,880,360);
         subE23.setFill(Color.rgb(246, 246, 246));
         subE23.setLayoutX(60);
         subE23.setLayoutY(150);
@@ -348,12 +349,49 @@ public class Main extends Application {
         ds.setSpread(.03);
 
 
+        Rectangle rectE22 = new Rectangle();
+        rectE22.setHeight(60);
+        rectE22.setWidth(830);
+        rectE22.setX(60);
+        rectE22.setY(55);
+        rectE22.setFill(Color.WHITE);
+        rectE22.setArcWidth(20);
+        rectE22.setArcHeight(20);
+        rectE22.setEffect(ds);
+
+        Rectangle rectE23 = new Rectangle();
+        rectE23.setHeight(60);
+        rectE23.setWidth(20);
+        rectE23.setFill(Color.TRANSPARENT);
+
+        Rectangle rectE24 = new Rectangle();
+        rectE24.setHeight(30);
+        rectE24.setWidth(8);
+        rectE24.setX(60);
+        rectE24.setY(55);
+        rectE24.setFill(Color.BLACK);
+        rectE24.setArcWidth(5);
+        rectE24.setArcHeight(5);
+        rectE24.setEffect(ds);
+
 
         Text tE21 = new Text(s1);
 
         tE21.setX(120);
         tE21.setY(90);
-        l1.getItems().add(tE21);
+
+
+        HBox hb2 = new HBox();
+        hb2.getChildren().add(rectE23);
+        hb2.getChildren().add(rectE24);
+        hb2.getChildren().add(tE21);
+        hb2.setSpacing(40);
+        hb2.setAlignment(Pos.CENTER_LEFT);
+
+        StackPane sp = new StackPane(rectE22,hb2);
+
+        SubScene sub2 = new SubScene(sp,850,70);
+        l1.getItems().add(sub2);
 
 
 
@@ -468,7 +506,7 @@ public class Main extends Application {
             hb.setSpacing(40);
             hb.setAlignment(Pos.CENTER);
 
-            SubScene sub1 = new SubScene(hb,865,70);
+            SubScene sub1 = new SubScene(hb,850,70);
 
             l1.getItems().add(sub1);
 
