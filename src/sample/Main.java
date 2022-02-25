@@ -824,6 +824,8 @@ public class Main extends Application {
 //        tE1.setFont(font1);
         tE1.setFill(Color.BLACK);
 
+
+
         HBox hbE1 = new HBox();
         hbE1.getChildren().add(rectE3);
         hbE1.getChildren().add(tE1);
@@ -832,13 +834,62 @@ public class Main extends Application {
         hbE1.setAlignment(Pos.CENTER_LEFT);
 
         SubScene subE2 = new SubScene(hbE1,360,50);
+
+
+        ListView lsE1 = new ListView();
+        lsE1.setBorder(Border.EMPTY);
+        lsE1.setSelectionModel(null);
+        lsE1.setBackground(Background.EMPTY);
+        lsE1.setStyle("-fx-background-color: transparent;");
+
+        int n=4;
+        while(n!=0)
+        {
+            addOnElection(lsE1);
+            n--;
+        }
+
+
+
+
+        SubScene subE9 = new SubScene(lsE1,360,400);
+
         VBox vbE1 = new VBox();
         vbE1.getChildren().add(subE2);
+        vbE1.getChildren().add(subE9);
 
         vbE1.setBackground(Background.EMPTY);
         SubScene subE1 = new SubScene(vbE1,360,450);
         subE1.setLayoutY(55);
         subE1.setLayoutX(55);
+
+        Text tEh = new Text("Create Election");
+        tEh.setFont(font1);
+
+
+        Image imgh = new Image("sample/election1.png");
+        ImageView viewh = new ImageView(imgh);
+        viewh.setFitHeight(30);
+        viewh.setPreserveRatio(true);
+        viewh.setPreserveRatio(true);
+
+        Rectangle rectE9 = new Rectangle();
+        rectE9.setHeight(2);
+        rectE9.setWidth(230);
+        rectE9.setFill(Color.BLACK);
+        rectE9.setArcWidth(1);
+        rectE9.setArcHeight(1);
+
+         HBox hbh = new HBox();
+         hbh.getChildren().add(viewh);
+         hbh.getChildren().add(tEh);
+         hbh.getChildren().add(rectE9);
+         hbh.setAlignment(Pos.CENTER);
+         hbh.setSpacing(20);
+
+         SubScene sc = new SubScene(hbh,460,30);
+         sc.setLayoutY(65);
+         sc.setLayoutX(480);
 
 
         Text textE1 = new Text("Election Name  : ");
@@ -961,6 +1012,7 @@ public class Main extends Application {
         groupE.getChildren().add(eName1);
         groupE.getChildren().add(eName2);
         groupE.getChildren().add(subE1);
+        groupE.getChildren().add(sc);
 
 
         groupE1.getChildren().add(groupE);
@@ -1190,19 +1242,27 @@ public class Main extends Application {
         hb2.setSpacing(40);
         hb2.setAlignment(Pos.CENTER_LEFT);
 
-        Image img5 = new Image("sample/elction1.png");
-        ImageView view5 = new ImageView(img1);
+        Rectangle rectE28 = new Rectangle();
+        rectE28.setHeight(30);
+        rectE28.setWidth(40);
+        rectE28.setFill(Color.WHITE);
+
+
+        Image img5 = new Image("sample/election2.png");
+        ImageView view5 = new ImageView(img5);
         view5.setFitHeight(40);
         view5.setPreserveRatio(true);
         view5.setPreserveRatio(true);
 
         HBox hb8 = new HBox();
+
         hb8.getChildren().add(view5);
-        hb8.setSpacing(40);
+        hb8.getChildren().add(rectE28);
+        hb8.setBackground(Background.EMPTY);
         hb8.setAlignment(Pos.CENTER_RIGHT);
 
 
-        StackPane sp = new StackPane(rectR2,hb2);
+        StackPane sp = new StackPane(rectR2,hb8,hb2);
 
         SubScene sub2 = new SubScene(sp,870,100);
         sub2.setLayoutX(60);
@@ -1322,6 +1382,49 @@ public class Main extends Application {
         primaryStage.setScene(scene);
         primaryStage.setResizable(false);
         primaryStage.show();
+    }
+
+    private void addOnElection(ListView lsE1) {
+
+        DropShadow ds = new DropShadow();
+        ds.setColor(Color.rgb(230, 230, 230));
+        ds.setBlurType(BlurType.GAUSSIAN);
+        ds.setRadius(200);
+        ds.setSpread(.03);
+
+        Rectangle rectR5 = new Rectangle();
+        rectR5.setHeight(10);
+        rectR5.setWidth(4);
+        rectR5.setArcWidth(5);
+        rectR5.setArcHeight(5);
+        rectR5.setFill(Color.BLACK);
+
+        Rectangle rectR2 = new Rectangle();
+        rectR2.setHeight(80);
+        rectR2.setWidth(320);
+        rectR2.setX(60);
+        rectR2.setY(55);
+        rectR2.setFill(Color.WHITE);
+        rectR2.setArcWidth(20);
+        rectR2.setArcHeight(20);
+        rectR2.setEffect(ds);
+
+        Text Ename = new Text("Election 21");
+
+        HBox hb = new HBox();
+        hb.getChildren().add(rectR5);
+        hb.getChildren().add(Ename);
+        hb.setSpacing(40);
+        hb.setAlignment(Pos.CENTER_LEFT);
+
+
+
+
+        StackPane sp = new StackPane(rectR2,hb);
+        SubScene sc = new SubScene(sp,340,100);
+        sc.setFill(Color.WHITE);
+        lsE1.getItems().add(sc);
+
     }
 
     private void resultList(ListView l1, String C_name, String C_position, int i) {
