@@ -1165,7 +1165,7 @@ public class Main extends Application {
         lsR1.setStyle(null);
         lsR1.setSelectionModel(null);
 
-        int result =1;
+        int result =5;
 
         while (result!=0)
         {
@@ -1173,8 +1173,25 @@ public class Main extends Application {
             result--;
         }
 
+        Rectangle rectR5 = new Rectangle();
+        rectR5.setHeight(2);
+        rectR5.setWidth(400);
+        rectR5.setArcWidth(5);
+        rectR5.setArcHeight(5);
+        rectR5.setFill(Color.BLACK);
 
-        lsR1.getItems().add("hello");
+        HBox hb5 = new HBox();
+        hb5.getChildren().add(rectR5);
+        hb5.setBackground(Background.EMPTY);
+        hb5.setAlignment(Pos.CENTER);
+
+        SubScene scR3 = new SubScene(hb5,850,6);
+
+
+        lsR1.getItems().add(scR3);
+
+
+
 
         SubScene scR2 = new SubScene(lsR1,870,200);
         scR1.setLayoutX(60);
@@ -1231,33 +1248,49 @@ public class Main extends Application {
         Text tR1 = new Text(C_name);
         Text tR2 = new Text(C_position);
         Text tR3 = new Text("won");
+        tR3.setFill(Color.WHITE);
 
         Rectangle rectR4 = new Rectangle();
-        rectR4.setHeight(30);
+        rectR4.setHeight(20);
         rectR4.setWidth(40);
         rectR4.setFill(Color.GREEN);
         rectR4.setArcWidth(5);
         rectR4.setArcHeight(5);
+
+        StackPane sp = new StackPane(rectR4,tR3);
+        sp.setAlignment(Pos.CENTER);
+
+
 
 
 
         HBox hb3 = new HBox();
         hb3.getChildren().add(tR1);
         hb3.getChildren().add(tR2);
-        hb3.getChildren().add(tR3);
+        hb3.getChildren().add(sp);
         hb3.setSpacing(250);
         hb3.setBackground(Background.EMPTY);
         hb3.setAlignment(Pos.BOTTOM_CENTER);
 
-        SubScene scR2 = new SubScene(hb3,850,20);
+        SubScene scR2 = new SubScene(hb3,850,30);
 
         Rectangle rectR5 = new Rectangle();
-        rectR5.setHeight(10);
+        rectR5.setHeight(1);
         rectR5.setWidth(800);
         rectR5.setArcWidth(5);
         rectR5.setArcHeight(5);
+        rectR5.setFill(Color.rgb(246, 246, 246));
+
+        HBox hb5 = new HBox();
+        hb5.getChildren().add(rectR5);
+        hb5.setBackground(Background.EMPTY);
+        hb5.setAlignment(Pos.CENTER);
+
+        SubScene scR3 = new SubScene(hb5,850,6);
+
 
         l1.getItems().add(scR2);
+        l1.getItems().add(scR3);
 
 
 
