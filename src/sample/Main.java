@@ -93,7 +93,7 @@ public class Main extends Application {
 
 
         Font font1 = Font.font("Helvetica", FontWeight.BOLD, 14);
-        
+
         DropShadow ds = new DropShadow();
         ds.setColor(Color.rgb(230, 230, 230));
         ds.setBlurType(BlurType.GAUSSIAN);
@@ -234,6 +234,7 @@ public class Main extends Application {
 
         ListView lsE3 = new ListView();
         lsE3.setBorder(Border.EMPTY);
+        lsE3.setBackground(Background.EMPTY);
         Font font1 = Font.font("Helvetica", FontWeight.BOLD, 14);
 
 
@@ -261,6 +262,8 @@ public class Main extends Application {
             @Override
             public void handle(ActionEvent actionEvent) {
 
+                lsE3.getItems().clear();
+                switchE3group(g1,groupE2);
 
 
             }
@@ -286,12 +289,12 @@ public class Main extends Application {
 
 
 
-        SubScene subE23 = new SubScene(lsE3,860,380);
+        SubScene subE23 = new SubScene(lsE3,880,450);
         subE23.setFill(Color.rgb(246, 246, 246));
         subE23.setLayoutX(60);
-        subE23.setLayoutY(130);
+        subE23.setLayoutY(50);
 
-        groupE0.getChildren().add(rectE21);
+        groupE2.getChildren().add(rectE21);
         groupE2.getChildren().add(subE23);
 
         g1.getChildren().remove(g3);
@@ -561,6 +564,12 @@ public class Main extends Application {
         l1.setBackground(Background.EMPTY);
 
         l1.getItems().add(s1);
+    }
+
+    public void   switchE3group(Group g1,Group g2)
+    {
+        g1.getChildren().remove(g2);
+        g1.getChildren().add(groupE);
     }
 
 
