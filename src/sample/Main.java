@@ -2,16 +2,19 @@ package sample;
 
 import database.MySQL;
 import javafx.application.Application;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.effect.*;
-import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Border;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -22,10 +25,16 @@ import javafx.scene.image.Image;
 import javafx.scene.SubScene;
 import javafx.scene.image.ImageView;
 
+import javax.swing.text.Style;
 import java.io.File;
 
 
 public class Main extends Application {
+
+    // data inputs
+    String election_Name;
+    int position;
+    String s1,s2;
 
     public static void main(String[] args) {
         MySQL db = new MySQL();
@@ -35,9 +44,15 @@ public class Main extends Application {
     }
 
     Group group = new Group();
-    Group groupE = new Group();
+
     Group groupV = new Group();
     Group groupR = new Group();
+
+
+    Group groupE1 = new Group();
+    Group groupE = new Group();
+    Group groupE0 = new Group();
+    Group groupE2 = new Group();
 
 
     //function switch sub scene(tabs) on selecting
@@ -64,6 +79,567 @@ public class Main extends Application {
         bt3.setFont(font2);
     }
 
+
+
+
+    //function switch subwindows in election tab
+    public void switchEgroup(Group g1,Group g3,int pos){
+
+
+        Font font1 = Font.font("Helvetica", FontWeight.BOLD, 14);
+
+        DropShadow ds = new DropShadow();
+        ds.setColor(Color.rgb(230, 230, 230));
+        ds.setBlurType(BlurType.GAUSSIAN);
+        ds.setRadius(200);
+        ds.setSpread(.03);
+
+        //ELECTION TAB2 CONTENT
+
+        Rectangle rectE21 = new Rectangle();
+        rectE21.setHeight(500);
+        rectE21.setWidth(940);
+        rectE21.setX(30);
+        rectE21.setY(30);
+        rectE21.setFill(Color.rgb(246, 246, 246));
+        rectE21.setArcWidth(20);
+        rectE21.setArcHeight(20);
+
+        Rectangle rectE22 = new Rectangle();
+        rectE22.setHeight(60);
+        rectE22.setWidth(870);
+        rectE22.setX(60);
+        rectE22.setY(55);
+        rectE22.setFill(Color.WHITE);
+        rectE22.setArcWidth(20);
+        rectE22.setArcHeight(20);
+        rectE22.setEffect(ds);
+
+
+        Text tE21 = new Text("Position");
+        Text tE22 = new Text("Number Of Candidates");
+        Text tE23 = new Text("Confirm");
+
+        tE21.setX(120);
+        tE21.setY(90);
+
+        tE22.setX(480);
+        tE22.setY(90);
+
+        tE23.setX(820);
+        tE23.setY(90);
+
+
+
+        ListView lsE2 = new ListView();
+        lsE2.setBorder(Border.EMPTY);
+        lsE2.setStyle("-fx-background-color:#F4F4F4; -fx-control-inner-background:#F4F4F4  ;-fx-control-inner-background-alt:#F4F4F4");
+        lsE2.setSelectionModel(null);
+
+        int u=0;
+        while (u!=pos) {
+            addItem(lsE2, u);
+            u++;
+        }
+
+        //PROCEED button
+        Button buttonE1 = new Button();
+        buttonE1.setText("Confirm");
+        buttonE1.setFont(font1);
+        buttonE1.setTextFill(Color.WHITE);
+        buttonE1.setLayoutX(520);
+        buttonE1.setLayoutY(450);
+        buttonE1.setPrefSize(390,40);
+        buttonE1.setStyle(
+                "-fx-background-color: #000000; focused:-fx-background-color: #FFFFFF ;"
+        );
+        buttonE1.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+
+                lsE2.getItems().clear();
+                switchE2group(g1,groupE0,pos,Integer.parseInt(s2));
+
+
+            }
+        });
+
+
+        HBox hb = new HBox();
+        hb.getChildren().add(buttonE1);
+        hb.setAlignment(Pos.CENTER);
+
+        SubScene s1 = new SubScene(hb,830,70);
+
+        buttonE1.setOnMouseEntered(mouseEvent -> {
+           s1.setCursor(Cursor.HAND);
+        });
+
+        buttonE1.setOnMouseExited(mouseEvent ->{
+            s1.setCursor(Cursor.DEFAULT);
+        });
+
+        lsE2.getItems().add(s1);
+
+
+
+
+        SubScene subE23 = new SubScene(lsE2,860,380);
+        subE23.setFill(Color.rgb(246, 246, 246));
+        subE23.setLayoutX(60);
+        subE23.setLayoutY(130);
+
+
+        groupE0.getChildren().add(rectE21);
+        groupE0.getChildren().add(rectE22);
+        groupE0.getChildren().add(tE21);
+        groupE0.getChildren().add(tE22);
+        groupE0.getChildren().add(tE23);
+        groupE0.getChildren().add(subE23);
+
+
+
+
+
+        g1.getChildren().remove(g3);
+        g1.getChildren().add(groupE0);
+
+    }
+
+
+    //function switch subwindows in election tab
+    public void switchE2group(Group g1,Group g3,int pos,int num){
+
+        Font font1 = Font.font("Helvetica", FontWeight.BOLD, 14);
+
+        DropShadow ds = new DropShadow();
+        ds.setColor(Color.rgb(230, 230, 230));
+        ds.setBlurType(BlurType.GAUSSIAN);
+        ds.setRadius(200);
+        ds.setSpread(.03);
+
+
+
+        //ELECTION TAB2 CONTENT
+
+        Rectangle rectE21 = new Rectangle();
+        rectE21.setHeight(500);
+        rectE21.setWidth(940);
+        rectE21.setX(30);
+        rectE21.setY(30);
+        rectE21.setFill(Color.rgb(246, 246, 246));
+        rectE21.setArcWidth(20);
+        rectE21.setArcHeight(20);
+
+
+        Rectangle rectE22 = new Rectangle();
+        rectE22.setHeight(60);
+        rectE22.setWidth(870);
+        rectE22.setX(60);
+        rectE22.setY(55);
+        rectE22.setFill(Color.WHITE);
+        rectE22.setArcWidth(20);
+        rectE22.setArcHeight(20);
+        rectE22.setEffect(ds);
+
+
+        Text tE21 = new Text("Name");
+        Text tE22 = new Text("Gender");
+        Text tE23 = new Text("Department");
+        Text tE24 = new Text("Confirm");
+
+        tE21.setX(190);
+        tE21.setY(90);
+
+        tE22.setX(425);
+        tE22.setY(90);
+
+        tE23.setX(565);
+        tE23.setY(90);
+
+        tE24.setX(790);
+        tE24.setY(90);
+
+        ListView lsE3 = new ListView();
+        lsE3.setBorder(Border.EMPTY);
+        lsE3.setBackground(Background.EMPTY);
+        lsE3.setStyle("-fx-background-color:#F4F4F4; -fx-control-inner-background:#F4F4F4  ;-fx-control-inner-background-alt:#F4F4F4");
+        lsE3.setSelectionModel(null);
+
+
+
+        int u=0;
+        while (u!=pos) {
+            addItem2(lsE3, u,num);
+            u++;
+        }
+
+
+
+        //PROCEED button
+        Button buttonE1 = new Button();
+        buttonE1.setText("Confirm");
+        buttonE1.setFont(font1);
+        buttonE1.setTextFill(Color.WHITE);
+        buttonE1.setLayoutX(520);
+        buttonE1.setLayoutY(450);
+        buttonE1.setPrefSize(390,40);
+        buttonE1.setStyle(
+                "-fx-background-color: #000000; focused:-fx-background-color: #FFFFFF ;"
+        );
+        buttonE1.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+
+                lsE3.getItems().clear();
+                switchE3group(g1,groupE2);
+
+
+            }
+        });
+
+
+        HBox hb = new HBox();
+        hb.getChildren().add(buttonE1);
+        hb.setAlignment(Pos.CENTER);
+
+        SubScene s1 = new SubScene(hb,830,70);
+
+        buttonE1.setOnMouseEntered(mouseEvent -> {
+            s1.setCursor(Cursor.HAND);
+        });
+
+        buttonE1.setOnMouseExited(mouseEvent ->{
+            s1.setCursor(Cursor.DEFAULT);
+        });
+
+        lsE3.getItems().add(s1);
+
+
+
+
+        SubScene subE23 = new SubScene(lsE3,880,360);
+        subE23.setFill(Color.rgb(246, 246, 246));
+        subE23.setLayoutX(60);
+        subE23.setLayoutY(150);
+
+        groupE2.getChildren().add(rectE21);
+        groupE2.getChildren().add(rectE22);
+        groupE2.getChildren().add(tE21);
+        groupE2.getChildren().add(tE22);
+        groupE2.getChildren().add(tE23);
+        groupE2.getChildren().add(tE24);
+        groupE2.getChildren().add(subE23);
+
+        g1.getChildren().remove(g3);
+        g1.getChildren().add(groupE2);
+
+    }
+
+    public void addItem2(ListView l1, int i, int num)
+    {
+        String s = Integer.toString(i);
+        //shadow effect to bottom navbar
+        DropShadow ds = new DropShadow();
+        ds.setColor(Color.rgb(230, 230, 230));
+        ds.setBlurType(BlurType.GAUSSIAN);
+        ds.setRadius(200);
+        ds.setSpread(.03);
+
+
+        Rectangle rectE22 = new Rectangle();
+        rectE22.setHeight(60);
+        rectE22.setWidth(830);
+        rectE22.setX(60);
+        rectE22.setY(55);
+        rectE22.setFill(Color.WHITE);
+        rectE22.setArcWidth(20);
+        rectE22.setArcHeight(20);
+//        rectE22.setEffect(ds);
+
+        Rectangle rectE23 = new Rectangle();
+        rectE23.setHeight(60);
+        rectE23.setWidth(20);
+        rectE23.setFill(Color.TRANSPARENT);
+
+        Rectangle rectE24 = new Rectangle();
+        rectE24.setHeight(30);
+        rectE24.setWidth(8);
+        rectE24.setX(60);
+        rectE24.setY(55);
+        rectE24.setFill(Color.BLACK);
+        rectE24.setArcWidth(5);
+        rectE24.setArcHeight(5);
+        rectE24.setEffect(ds);
+
+
+        Text tE21 = new Text(s1);
+
+        tE21.setX(120);
+        tE21.setY(90);
+
+
+        HBox hb2 = new HBox();
+        hb2.getChildren().add(rectE23);
+        hb2.getChildren().add(rectE24);
+        hb2.getChildren().add(tE21);
+        hb2.setSpacing(40);
+        hb2.setAlignment(Pos.CENTER_LEFT);
+        hb2.setBackground(Background.EMPTY);
+
+        StackPane sp = new StackPane(rectE22,hb2);
+
+        SubScene sub2 = new SubScene(sp,850,70);
+        sub2.setFill(Color.rgb(246, 246, 246));
+        l1.getItems().add(sub2);
+
+
+
+
+       int n=0;
+       int t;
+        while(n!=num){
+            t=n+1;
+            //TextField 1
+            TextField eName3 = new TextField();
+            eName3.setPromptText("Candidate name "+t);
+            eName3.setPrefSize(200,40);
+            eName3.setLayoutX(520);
+            eName3.setPadding(new Insets(10, 10, 10, 25));
+            eName3.setLayoutY(200);
+            eName3.setStyle("-fx-focus-color: transparent;-fx-background-color: -fx-control-inner-background;");
+            eName3.setEffect(ds);
+
+
+
+
+            //TextField 1
+            TextField eName4 = new TextField();
+            eName4.setPromptText("Male");
+            eName4.setPrefSize(100,40);
+            eName4.setLayoutX(520);
+            eName4.setPadding(new Insets(10, 10, 10, 25));
+            eName4.setLayoutY(200);
+            eName4.setStyle("-fx-focus-color: transparent;-fx-background-color: -fx-control-inner-background;");
+            eName4.setEffect(ds);
+
+            //TextField 1
+            TextField eName5= new TextField();
+            eName5.setPromptText("CSE");
+            eName5.setPrefSize(200,40);
+            eName5.setLayoutX(520);
+            eName5.setPadding(new Insets(10, 10, 10, 25));
+            eName5.setLayoutY(200);
+            eName5.setStyle("-fx-focus-color: transparent;-fx-background-color: -fx-control-inner-background;");
+            eName5.setEffect(ds);
+
+            //checkbox
+            CheckBox ch = new CheckBox();
+            ch.setCursor(Cursor.HAND);
+
+            if(eName3.getText().isEmpty() ||eName4.getText().isEmpty()  )
+            {
+                ch.setDisable(true);
+            }
+            else
+            {
+                ch.setDisable(false);
+
+            }
+
+            eName3.textProperty().addListener(
+                    (observable, oldValue, newValue)->{
+                        if(eName3.getText().isEmpty() ||eName4.getText().isEmpty()  )
+                        {
+                            ch.setDisable(true);
+                        }
+                        else
+                        {
+                            ch.setDisable(false);
+
+                        }
+
+                    }
+            );
+
+            eName4.textProperty().addListener(
+                    (observable, oldValue, newValue)->{
+                        if(eName3.getText().isEmpty() ||eName4.getText().isEmpty()  )
+                        {
+                            ch.setDisable(true);
+                        }
+                        else
+                        {
+                            ch.setDisable(false);
+
+                        }
+
+                    }
+            );
+
+            ch.selectedProperty().addListener(
+                    (ObservableValue<? extends Boolean> ov, Boolean old_val, Boolean new_val) -> {
+
+
+                        if(ch.isSelected())
+                        {
+                            eName3.setEditable(false);
+                            eName4.setEditable(false);
+                            s1 = eName3.getText();
+                            s2 = eName4.getText();
+                        }
+                        if(!ch.isSelected())
+                        {
+                            eName3.setEditable(true);
+                            eName4.setEditable(true);
+                        }
+
+                        System.out.println(s1);
+                        System.out.println(s2);
+                    });
+
+            HBox hb = new HBox();
+            hb.getChildren().add(eName3);
+            hb.getChildren().add(eName4);
+            hb.getChildren().add(eName5);
+            hb.getChildren().add(ch);
+            hb.setSpacing(40);
+            hb.setAlignment(Pos.CENTER);
+            hb.setBackground(Background.EMPTY);
+
+            SubScene sub1 = new SubScene(hb,850,70);
+            sub1.setFill(Color.rgb(246, 246, 246));
+
+            l1.getItems().add(sub1);
+
+            n++;
+        }
+
+    }
+
+
+    //add item to list
+    public void addItem(ListView l1, int i)
+    {
+        String s = Integer.toString(i);
+        //shadow effect to bottom navbar
+        DropShadow ds = new DropShadow();
+        ds.setColor(Color.rgb(230, 230, 230));
+        ds.setBlurType(BlurType.GAUSSIAN);
+        ds.setRadius(200);
+        ds.setSpread(.03);
+
+
+        //TextField 1
+        TextField eName3 = new TextField();
+        eName3.setPromptText("Position name "+s);
+        eName3.setPrefSize(300,40);
+        eName3.setLayoutX(520);
+        eName3.setPadding(new Insets(10, 10, 10, 25));
+        eName3.setLayoutY(200);
+        eName3.setStyle("-fx-focus-color: transparent;-fx-background-color: -fx-control-inner-background;");
+        eName3.setEffect(ds);
+
+
+
+
+        //TextField 1
+        TextField eName4 = new TextField();
+        eName4.setPromptText("0");
+        eName4.setPrefSize(300,40);
+        eName4.setLayoutX(520);
+        eName4.setPadding(new Insets(10, 10, 10, 25));
+        eName4.setLayoutY(200);
+        eName4.setStyle("-fx-focus-color: transparent;-fx-background-color: -fx-control-inner-background;");
+        eName4.setEffect(ds);
+
+        //checkbox
+        CheckBox ch = new CheckBox();
+        ch.setCursor(Cursor.HAND);
+
+        if(eName3.getText().isEmpty() ||eName4.getText().isEmpty()  )
+        {
+            ch.setDisable(true);
+        }
+        else
+        {
+            ch.setDisable(false);
+
+        }
+
+        eName3.textProperty().addListener(
+                (observable, oldValue, newValue)->{
+                    if(eName3.getText().isEmpty() ||eName4.getText().isEmpty()  )
+                    {
+                        ch.setDisable(true);
+                    }
+                    else
+                    {
+                        ch.setDisable(false);
+
+                    }
+
+                }
+        );
+
+        eName4.textProperty().addListener(
+                (observable, oldValue, newValue)->{
+                    if(eName3.getText().isEmpty() ||eName4.getText().isEmpty()  )
+                    {
+                        ch.setDisable(true);
+                    }
+                    else
+                    {
+                        ch.setDisable(false);
+
+                    }
+
+                }
+        );
+
+        ch.selectedProperty().addListener(
+                (ObservableValue<? extends Boolean> ov, Boolean old_val, Boolean new_val) -> {
+                    if(ch.isSelected())
+                    {
+                        eName3.setEditable(false);
+                        eName4.setEditable(false);
+                        s1 = eName3.getText();
+                        s2 = eName4.getText();
+                    }
+                    if(!ch.isSelected())
+                    {
+                        eName3.setEditable(true);
+                        eName4.setEditable(true);
+                    }
+
+                    System.out.println(s1);
+                    System.out.println(s2);
+                });
+
+        HBox hb = new HBox();
+        hb.getChildren().add(eName3);
+        hb.getChildren().add(eName4);
+        hb.getChildren().add(ch);
+        hb.setSpacing(60);
+        hb.setAlignment(Pos.CENTER);
+        hb.setBackground(Background.EMPTY);
+
+        SubScene s1 = new SubScene(hb,830,70);
+
+        l1.setBorder(Border.EMPTY);
+        s1.setFill(Color.rgb(246, 246, 246));
+        l1.setBackground(Background.EMPTY);
+
+        l1.getItems().add(s1);
+    }
+
+    public void   switchE3group(Group g1,Group g2)
+    {
+        g1.getChildren().remove(g2);
+        g1.getChildren().add(groupE);
+    }
+
+
     @Override
     public void start(Stage primaryStage) {
 
@@ -71,7 +647,7 @@ public class Main extends Application {
         Scene scene = new Scene(group, 1000, 650);
 
         //Sub scene for each tab
-        SubScene sceneE = new SubScene(groupE, 1000, 600);
+        SubScene sceneE = new SubScene(groupE1, 1000, 600);
         SubScene sceneV = new SubScene(groupV, 1000, 600);
         SubScene sceneR = new SubScene(groupR, 1000, 600);
 
@@ -220,6 +796,8 @@ public class Main extends Application {
         btn2.setFont(font2);
 
 
+
+
         //ELECTION TAB CONTENTS
         Rectangle rectE1 = new Rectangle();
         rectE1.setHeight(500);
@@ -232,22 +810,104 @@ public class Main extends Application {
 
         Rectangle rectE2 = new Rectangle();
         rectE2.setHeight(450);
-        rectE2.setWidth(400);
-        rectE2.setX(60);
+        rectE2.setWidth(2);
+        rectE2.setX(450);
         rectE2.setY(55);
-        rectE2.setFill(Color.BLACK);
-        rectE2.setArcWidth(20);
-        rectE2.setArcHeight(20);
+        rectE2.setFill(Color.WHITE);
+        rectE2.setArcWidth(1);
+        rectE2.setArcHeight(1);
+
+
+        Rectangle rectE3= new Rectangle();
+        rectE3.setHeight(10);
+        rectE3.setWidth(3);
+        rectE3.setX(450);
+        rectE3.setY(55);
+        rectE3.setFill(Color.BLACK);
+        rectE3.setArcWidth(3);
+        rectE3.setArcHeight(3);
+
+        Text tE1 = new Text("Ongoing Election");
+//        tE1.setFont(font1);
+        tE1.setFill(Color.BLACK);
+
+
+
+        HBox hbE1 = new HBox();
+        hbE1.getChildren().add(rectE3);
+        hbE1.getChildren().add(tE1);
+        hbE1.setSpacing(20);
+
+        hbE1.setAlignment(Pos.CENTER_LEFT);
+
+        SubScene subE2 = new SubScene(hbE1,360,50);
+
+
+        ListView lsE1 = new ListView();
+        lsE1.setBorder(Border.EMPTY);
+        lsE1.setSelectionModel(null);
+        lsE1.setBackground(Background.EMPTY);
+        lsE1.setStyle("-fx-background-color:#F4F4F4; -fx-control-inner-background:#F4F4F4  ;-fx-control-inner-background-alt:#F4F4F4");
+
+        int n=4;
+        while(n!=0)
+        {
+            addOnElection(lsE1);
+            n--;
+        }
+
+
+
+
+        SubScene subE9 = new SubScene(lsE1,360,400);
+
+        VBox vbE1 = new VBox();
+        vbE1.getChildren().add(subE2);
+        vbE1.getChildren().add(subE9);
+
+        vbE1.setBackground(Background.EMPTY);
+        SubScene subE1 = new SubScene(vbE1,360,450);
+        subE1.setLayoutY(55);
+        subE1.setLayoutX(55);
+
+        Text tEh = new Text("Create Election");
+        tEh.setFont(font1);
+
+
+        Image imgh = new Image("sample/election1.png");
+        ImageView viewh = new ImageView(imgh);
+        viewh.setFitHeight(30);
+        viewh.setPreserveRatio(true);
+        viewh.setPreserveRatio(true);
+
+        Rectangle rectE9 = new Rectangle();
+        rectE9.setHeight(2);
+        rectE9.setWidth(230);
+        rectE9.setFill(Color.BLACK);
+        rectE9.setArcWidth(1);
+        rectE9.setArcHeight(1);
+
+         HBox hbh = new HBox();
+         hbh.getChildren().add(viewh);
+         hbh.getChildren().add(tEh);
+         hbh.getChildren().add(rectE9);
+         hbh.setAlignment(Pos.CENTER);
+         hbh.setSpacing(20);
+
+         SubScene sc = new SubScene(hbh,460,30);
+         sc.setLayoutY(65);
+         sc.setLayoutX(480);
+
 
         Text textE1 = new Text("Election Name  : ");
         textE1.setX(520);
-        textE1.setY(180);
+        textE1.setY(220);
         textE1.setFill(Color.rgb(108,108,108));
         textE1.setFont(font1);
 
-        Text textE2 = new Text("Number Of Candidates  : ");
+        Text textE2 = new Text("Number Of Positions  : ");
         textE2.setX(520);
-        textE2.setY(310);
+        textE2.setY(340);
         textE2.setFill(Color.rgb(108,108,108));
         textE2.setFont(font1);
 
@@ -258,6 +918,28 @@ public class Main extends Application {
         ImageView view = new ImageView(img);
         view.setFitHeight(20);
         view.setPreserveRatio(true);
+
+
+        //TextField 1
+        TextField eName1 = new TextField();
+        eName1.setPromptText("Ex  :  Union  election 2021");
+        eName1.setPrefSize(400,40);
+        eName1.setLayoutX(520);
+        eName1.setPadding(new Insets(10, 10, 10, 25));
+        eName1.setLayoutY(240);
+        eName1.setStyle("-fx-focus-color: transparent;-fx-background-color: -fx-control-inner-background;");
+        eName1.setEffect(ds);
+
+        //TextField2
+        TextField eName2 = new TextField();
+        eName2.setPromptText("Ex  :  10 or 15...");
+        eName2.setPrefSize(400,40);
+        eName2.setLayoutX(520);
+        eName2.setLayoutY(365);
+        eName2.setPadding(new Insets(10, 10, 10, 25));
+        eName2.setStyle("-fx-focus-color:transparent;-fx-background-color: -fx-control-inner-background;");
+        eName1.setEffect(ds);
+
 
 
         //PROCEED button
@@ -273,32 +955,21 @@ public class Main extends Application {
         buttonE1.setStyle(
                 "-fx-background-color: #000000; focused:-fx-background-color: #FFFFFF ;"
         );
+        buttonE1.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                election_Name = eName1.getText();
+                position = Integer.parseInt(eName2.getText());
+                switchEgroup(groupE1,groupE,position);
+
+            }
+        });
 
         DropShadow dsB = new DropShadow();
         dsB.setColor(Color.rgb(134,134,134));
         dsB.setBlurType(BlurType.GAUSSIAN);
         dsB.setRadius(20);
         dsB.setSpread(.01);
-
-        //TextField 1
-        TextField eName1 = new TextField();
-        eName1.setPromptText("Ex  :  Union  election 2021");
-        eName1.setPrefSize(400,40);
-        eName1.setLayoutX(520);
-        eName1.setPadding(new Insets(10, 10, 10, 25));
-        eName1.setLayoutY(200);
-        eName1.setStyle("-fx-focus-color: transparent;-fx-background-color: -fx-control-inner-background;");
-        eName1.setEffect(ds);
-
-        //TextField2
-        TextField eName2 = new TextField();
-        eName2.setPromptText("Ex  :  10 or 15...");
-        eName2.setPrefSize(400,40);
-        eName2.setLayoutX(520);
-        eName2.setLayoutY(330);
-        eName2.setPadding(new Insets(10, 10, 10, 25));
-        eName2.setStyle("-fx-focus-color:transparent;-fx-background-color: -fx-control-inner-background;");
-        eName1.setEffect(ds);
 
 
 
@@ -347,10 +1018,34 @@ public class Main extends Application {
         groupE.getChildren().add(buttonE1);
         groupE.getChildren().add(eName1);
         groupE.getChildren().add(eName2);
+        groupE.getChildren().add(subE1);
+        groupE.getChildren().add(sc);
+
+
+        groupE1.getChildren().add(groupE);
+
 
 
 
         //VOTE TAB CONTENTS
+
+
+        Image img2 = new Image("sample/election3.png");
+        ImageView view2 = new ImageView(img2);
+        view2.setFitHeight(100);
+        view2.setPreserveRatio(true);
+        view2.setPreserveRatio(true);
+
+        VBox vbV1 = new VBox();
+        vbV1.setBackground(Background.EMPTY);
+        vbV1.setAlignment(Pos.CENTER);
+        vbV1.getChildren().add(view2);
+        SubScene subV1 = new SubScene(vbV1,400,450);
+        subV1.setLayoutX(60);
+        subV1.setLayoutY(60);
+
+
+
         Rectangle rectV1 = new Rectangle();
         rectV1.setHeight(500);
         rectV1.setWidth(940);
@@ -374,8 +1069,8 @@ public class Main extends Application {
         Image i = new Image(new File("sample/vot.gif").toURI().toString());
         ImageView imageViewV1 = new ImageView(i);
 
-        imageViewV1.setX(300);
-        imageViewV1.setX(100);
+        imageViewV1.setX(30);
+        imageViewV1.setX(10);
         imageViewV1.setPreserveRatio(true);
         imageViewV1.setCache(true);
         imageViewV1.setFitWidth(300);
@@ -395,10 +1090,34 @@ public class Main extends Application {
 
         Image img1 = new Image("sample/right.png");
         ImageView viewl = new ImageView(img1);
-        view.setFitHeight(20);
-        view.setPreserveRatio(true);
+        viewl.setFitHeight(20);
+        viewl.setPreserveRatio(true);
+        viewl.setPreserveRatio(true);
 
-        //PROCEED button
+        //TextField 1
+        TextField vName1 = new TextField();
+        vName1.setPrefSize(370,40);
+        vName1.setLayoutX(520);
+        vName1.setPadding(new Insets(10, 10, 10, 25));
+        vName1.setLayoutY(170);
+        vName1.setStyle("-fx-focus-color: transparent;-fx-background-color: #EEEEEE;");
+        vName1.setEffect(ds);
+
+
+
+        //TextField2
+        PasswordField vName2 = new PasswordField();
+        vName2.setPrefSize(370,40);
+        vName2.setLayoutX(520);
+        vName2.setLayoutY(310);
+        vName2.setPadding(new Insets(10, 10, 10, 25));
+        vName2.setStyle("-fx-focus-color:transparent;-fx-background-color: #EEEEEE;");
+        vName2.setEffect(ds);
+
+        vName2.setVisible(true);
+
+
+
         Button buttonV1 = new Button();
         buttonV1.setGraphic(viewl);
         buttonV1.setGraphicTextGap(10);
@@ -412,24 +1131,15 @@ public class Main extends Application {
                 "-fx-background-color: #000000; focused:-fx-background-color: #FFFFFF ;"
         );
 
+        buttonV1.setOnAction((actionEvent)->{
+            if(vName1.getText().isEmpty())
+            {
 
-        //TextField 1
-        TextField vName1 = new TextField();
-        vName1.setPrefSize(370,40);
-        vName1.setLayoutX(520);
-        vName1.setPadding(new Insets(10, 10, 10, 25));
-        vName1.setLayoutY(170);
-        vName1.setStyle("-fx-focus-color: transparent;-fx-background-color: #EEEEEE;");
-        vName1.setEffect(ds);
+            }
 
-        //TextField2
-        TextField vName2 = new TextField();
-        vName2.setPrefSize(370,40);
-        vName2.setLayoutX(520);
-        vName2.setLayoutY(310);
-        vName2.setPadding(new Insets(10, 10, 10, 25));
-        vName2.setStyle("-fx-focus-color:transparent;-fx-background-color: #EEEEEE;");
-        vName2.setEffect(ds);
+        });
+
+
 
 
 
@@ -469,6 +1179,7 @@ public class Main extends Application {
         groupV.getChildren().add(vName1);
         groupV.getChildren().add(vName2);
         groupV.getChildren().add(buttonV1);
+        groupV.getChildren().add(subV1);
 
         groupV.getChildren().add(imageViewV1);
 
@@ -493,19 +1204,166 @@ public class Main extends Application {
         rectR2.setArcHeight(20);
         rectR2.setEffect(ds);
 
+
+
         Rectangle rectR3 = new Rectangle();
-        rectR3.setHeight(300);
-        rectR3.setWidth(870);
-        rectR3.setX(60);
-        rectR3.setY(200);
-        rectR3.setFill(Color.WHITE);
-        rectR3.setArcWidth(20);
-        rectR3.setArcHeight(20);
+        rectR3.setHeight(60);
+        rectR3.setWidth(20);
+        rectR3.setFill(Color.TRANSPARENT);
+
+        Rectangle rectE24 = new Rectangle();
+        rectE24.setHeight(30);
+        rectE24.setWidth(8);
+        rectE24.setX(60);
+        rectE24.setY(55);
+        rectE24.setFill(Color.BLACK);
+        rectE24.setArcWidth(5);
+        rectE24.setArcHeight(5);
+        rectE24.setEffect(ds);
+
+        ComboBox cm = new ComboBox();
+        cm.setBorder(Border.EMPTY);
+        cm.setBackground(Background.EMPTY);
+        cm.getSelectionModel().selectFirst();
+
+        cm.getItems().add("Union Election 21");
+        cm.getItems().add("College Election 22");
+        cm.getItems().add("Teachers Election 23");
+        cm.getItems().add("Staff Election 21");
+        cm.getItems().add("Management Election 22");
+        cm.getItems().add("College Election 23");
+
+        cm.setValue("Union Election 21");
+        cm.setOnMouseEntered((MouseEvent)->{
+            sceneR.setCursor(Cursor.HAND);
+        });
+
+        cm.setOnMouseExited((MouseEvent)->{
+            sceneR.setCursor(Cursor.DEFAULT);
+        });
+
+        HBox hb2 = new HBox();
+        hb2.getChildren().add(rectR3);
+        hb2.getChildren().add(rectE24);
+        hb2.getChildren().add(cm);
+        hb2.setSpacing(40);
+        hb2.setAlignment(Pos.CENTER_LEFT);
+
+        Rectangle rectE28 = new Rectangle();
+        rectE28.setHeight(30);
+        rectE28.setWidth(40);
+        rectE28.setFill(Color.WHITE);
+
+
+        Image img5 = new Image("sample/election2.png");
+        ImageView view5 = new ImageView(img5);
+        view5.setFitHeight(40);
+        view5.setPreserveRatio(true);
+        view5.setPreserveRatio(true);
+
+        HBox hb8 = new HBox();
+
+        hb8.getChildren().add(view5);
+        hb8.getChildren().add(rectE28);
+        hb8.setBackground(Background.EMPTY);
+        hb8.setAlignment(Pos.CENTER_RIGHT);
+
+
+        StackPane sp = new StackPane(rectR2,hb8,hb2);
+
+        SubScene sub2 = new SubScene(sp,870,100);
+        sub2.setLayoutX(60);
+        sub2.setLayoutY(55);
+
+
+
+
+        Rectangle rectR4 = new Rectangle();
+        rectR4.setHeight(300);
+        rectR4.setWidth(870);
+        rectR4.setX(60);
+        rectR4.setY(200);
+        rectR4.setFill(Color.WHITE);
+        rectR4.setArcWidth(20);
+        rectR4.setArcHeight(20);
+
+        Text tR1 = new Text("Name");
+        Text tR2 = new Text("Position");
+        Text tR3 = new Text("Result");
+
+        HBox hb3 = new HBox();
+        hb3.getChildren().add(tR1);
+        hb3.getChildren().add(tR2);
+        hb3.getChildren().add(tR3);
+        hb3.setSpacing(250);
+        hb3.setBackground(Background.EMPTY);
+        hb3.setAlignment(Pos.BOTTOM_CENTER);
+
+        SubScene scR1 = new SubScene(hb3,870,50);
+        scR1.setLayoutX(60);
+        scR1.setLayoutY(210);
+
+
+        ListView lsR1 = new ListView();
+        lsR1.setBackground(Background.EMPTY);
+        lsR1.setStyle("-fx-background-color:#FFFFFF; -fx-control-inner-background:#FFFFFF  ;-fx-control-inner-background-alt:#FFFFFF");
+        lsR1.setSelectionModel(null);
+        lsR1.setFocusTraversable(false);
+        lsR1.setBorder(Border.EMPTY);
+
+        lsR1.setSelectionModel(null);
+
+        int result =3;
+
+        while (result!=0)
+        {
+            resultList(lsR1,"dinoy raj","chairman",1);
+            result--;
+        }
+
+        Rectangle rectR5 = new Rectangle();
+        rectR5.setHeight(2);
+        rectR5.setWidth(400);
+        rectR5.setArcWidth(5);
+        rectR5.setArcHeight(5);
+        rectR5.setFill(Color.BLACK);
+
+        HBox hb5 = new HBox();
+        hb5.getChildren().add(rectR5);
+        hb5.setBackground(Background.EMPTY);
+        hb5.setAlignment(Pos.CENTER);
+
+        SubScene scR3 = new SubScene(hb5,850,6);
+
+
+        lsR1.getItems().add(scR3);
+
+
+
+
+        SubScene scR2 = new SubScene(lsR1,870,200);
+        scR1.setLayoutX(60);
+        scR1.setLayoutY(300);
+
+        VBox vb2 = new VBox();
+        vb2.setBackground(Background.EMPTY);
+        vb2.getChildren().add(scR1);
+        vb2.getChildren().add(scR2);
+        vb2.setSpacing(20);
+        vb2.setAlignment(Pos.TOP_CENTER);
+
+        StackPane sp1 = new StackPane(rectR4,vb2);
+
+        SubScene sub3 = new SubScene(sp1,870,300);
+        sub3.setLayoutX(60);
+        sub3.setLayoutY(200);
 
 
         groupR.getChildren().add(rectR1);
-        groupR.getChildren().add(rectR2);
-        groupR.getChildren().add(rectR3);
+        groupR.getChildren().add(sub2);
+        groupR.getChildren().add(sub3);
+
+
 
 
         //Children added to main scene (bottom navbar)
@@ -523,12 +1381,112 @@ public class Main extends Application {
         group.getChildren().add(sceneE);
 
 
+
+
         //App icon,name and staged the main scene
         primaryStage.getIcons().add(new Image("sample/a.png"));
         primaryStage.setTitle("VotR");
         primaryStage.setScene(scene);
         primaryStage.setResizable(false);
         primaryStage.show();
+    }
+
+    private void addOnElection(ListView lsE1) {
+
+        DropShadow ds = new DropShadow();
+        ds.setColor(Color.rgb(230, 230, 230));
+        ds.setBlurType(BlurType.GAUSSIAN);
+        ds.setRadius(200);
+        ds.setSpread(.03);
+
+        Rectangle rectR5 = new Rectangle();
+        rectR5.setHeight(10);
+        rectR5.setWidth(4);
+        rectR5.setArcWidth(5);
+        rectR5.setArcHeight(5);
+        rectR5.setFill(Color.BLACK);
+
+        Rectangle rectR2 = new Rectangle();
+        rectR2.setHeight(80);
+        rectR2.setWidth(320);
+        rectR2.setX(60);
+        rectR2.setY(55);
+        rectR2.setFill(Color.WHITE);
+        rectR2.setArcWidth(20);
+        rectR2.setArcHeight(20);
+//        rectR2.setEffect(ds);
+
+        Text Ename = new Text("Election 21");
+
+        HBox hb = new HBox();
+        hb.getChildren().add(rectR5);
+        hb.getChildren().add(Ename);
+        hb.setSpacing(40);
+        hb.setAlignment(Pos.CENTER_LEFT);
+        hb.setBackground(Background.EMPTY);
+
+
+
+
+        StackPane sp = new StackPane(rectR2,hb);
+        SubScene sc = new SubScene(sp,340,100);
+        sc.setFill(Color.rgb(246,246,246));
+        lsE1.getItems().add(sc);
+
+    }
+
+    private void resultList(ListView l1, String C_name, String C_position, int i) {
+
+        Font font1 = Font.font("Helvetica", FontWeight.BOLD, 10);
+
+        Text tR1 = new Text(C_name);
+        Text tR2 = new Text(C_position);
+
+
+
+
+        Button buttonV1 = new Button();
+        buttonV1.setFont(font1);
+        buttonV1.setText("Won");
+        buttonV1.setTextFill(Color.WHITE);
+        buttonV1.setPrefSize(40,15);
+        buttonV1.setStyle(
+                "-fx-background-color: #349632; "
+        );
+
+
+        HBox hb3 = new HBox();
+        hb3.getChildren().add(tR1);
+        hb3.getChildren().add(tR2);
+        hb3.getChildren().add(buttonV1);
+        hb3.setSpacing(250);
+        hb3.setBackground(Background.EMPTY);
+        hb3.setAlignment(Pos.BOTTOM_CENTER);
+
+        SubScene scR2 = new SubScene(hb3,850,30);
+
+
+
+        Rectangle rectR5 = new Rectangle();
+        rectR5.setHeight(2);
+        rectR5.setWidth(800);
+        rectR5.setArcWidth(5);
+        rectR5.setArcHeight(5);
+        rectR5.setFill(Color.rgb(246, 246, 246));
+
+        HBox hb5 = new HBox();
+        hb5.getChildren().add(rectR5);
+        hb5.setBackground(Background.EMPTY);
+        hb5.setAlignment(Pos.CENTER);
+
+        SubScene scR3 = new SubScene(hb5,850,6);
+
+
+        l1.getItems().add(scR2);
+        l1.getItems().add(scR3);
+
+
+
     }
 
 }
