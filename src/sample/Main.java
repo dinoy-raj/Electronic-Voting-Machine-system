@@ -7,10 +7,9 @@ import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
+import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
-import javafx.scene.Cursor;
-import javafx.scene.Group;
-import javafx.scene.Scene;
+import javafx.scene.*;
 import javafx.scene.control.*;
 import javafx.scene.effect.*;
 import javafx.scene.input.MouseEvent;
@@ -22,7 +21,6 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.image.Image;
-import javafx.scene.SubScene;
 import javafx.scene.image.ImageView;
 
 import javax.swing.text.Style;
@@ -848,6 +846,7 @@ public class Main extends Application {
         lsE1.setSelectionModel(null);
         lsE1.setBackground(Background.EMPTY);
         lsE1.setStyle("-fx-background-color:#F4F4F4; -fx-control-inner-background:#F4F4F4  ;-fx-control-inner-background-alt:#F4F4F4");
+//        lsE1.onScrollToProperty().addListener();
 
         int n=4;
         while(n!=0)
