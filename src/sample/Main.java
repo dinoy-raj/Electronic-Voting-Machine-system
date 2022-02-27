@@ -7,10 +7,9 @@ import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
+import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
-import javafx.scene.Cursor;
-import javafx.scene.Group;
-import javafx.scene.Scene;
+import javafx.scene.*;
 import javafx.scene.control.*;
 import javafx.scene.effect.*;
 import javafx.scene.input.MouseEvent;
@@ -22,7 +21,6 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.image.Image;
-import javafx.scene.SubScene;
 import javafx.scene.image.ImageView;
 
 import javax.swing.text.Style;
@@ -118,7 +116,7 @@ public class Main extends Application {
 
         Text tE21 = new Text("Position");
         Text tE22 = new Text("Number Of Candidates");
-        Text tE23 = new Text("Confirm");
+        Text tE23 = new Text("Verify");
 
         tE21.setX(120);
         tE21.setY(90);
@@ -144,7 +142,7 @@ public class Main extends Application {
 
         //PROCEED button
         Button buttonE1 = new Button();
-        buttonE1.setText("Confirm");
+        buttonE1.setText("Proceed");
         buttonE1.setFont(font1);
         buttonE1.setTextFill(Color.WHITE);
         buttonE1.setLayoutX(520);
@@ -245,8 +243,8 @@ public class Main extends Application {
 
         Text tE21 = new Text("Name");
         Text tE22 = new Text("Gender");
-        Text tE23 = new Text("Department");
-        Text tE24 = new Text("Confirm");
+        Text tE23 = new Text("Voter ID");
+        Text tE24 = new Text("Verify");
 
         tE21.setX(190);
         tE21.setY(90);
@@ -415,7 +413,7 @@ public class Main extends Application {
 
             //TextField 1
             TextField eName4 = new TextField();
-            eName4.setPromptText("Male");
+            eName4.setPromptText("F / M");
             eName4.setPrefSize(100,40);
             eName4.setLayoutX(520);
             eName4.setPadding(new Insets(10, 10, 10, 25));
@@ -425,7 +423,7 @@ public class Main extends Application {
 
             //TextField 1
             TextField eName5= new TextField();
-            eName5.setPromptText("CSE");
+            eName5.setPromptText("190***");
             eName5.setPrefSize(200,40);
             eName5.setLayoutX(520);
             eName5.setPadding(new Insets(10, 10, 10, 25));
@@ -827,7 +825,7 @@ public class Main extends Application {
         rectE3.setArcWidth(3);
         rectE3.setArcHeight(3);
 
-        Text tE1 = new Text("Ongoing Election");
+        Text tE1 = new Text("Election");
 //        tE1.setFont(font1);
         tE1.setFill(Color.BLACK);
 
@@ -848,6 +846,7 @@ public class Main extends Application {
         lsE1.setSelectionModel(null);
         lsE1.setBackground(Background.EMPTY);
         lsE1.setStyle("-fx-background-color:#F4F4F4; -fx-control-inner-background:#F4F4F4  ;-fx-control-inner-background-alt:#F4F4F4");
+//        lsE1.onScrollToProperty().addListener();
 
         int n=4;
         while(n!=0)
@@ -905,7 +904,7 @@ public class Main extends Application {
         textE1.setFill(Color.rgb(108,108,108));
         textE1.setFont(font1);
 
-        Text textE2 = new Text("Number Of Positions  : ");
+        Text textE2 = new Text("Number Of Posts  : ");
         textE2.setX(520);
         textE2.setY(340);
         textE2.setFill(Color.rgb(108,108,108));
@@ -922,7 +921,7 @@ public class Main extends Application {
 
         //TextField 1
         TextField eName1 = new TextField();
-        eName1.setPromptText("Ex  :  Union  election 2021");
+        eName1.setPromptText(" Union  election 2021");
         eName1.setPrefSize(400,40);
         eName1.setLayoutX(520);
         eName1.setPadding(new Insets(10, 10, 10, 25));
@@ -932,7 +931,7 @@ public class Main extends Application {
 
         //TextField2
         TextField eName2 = new TextField();
-        eName2.setPromptText("Ex  :  10 or 15...");
+        eName2.setPromptText("10 or 15...");
         eName2.setPrefSize(400,40);
         eName2.setLayoutX(520);
         eName2.setLayoutY(365);
@@ -1066,16 +1065,22 @@ public class Main extends Application {
 
         rectV2.setEffect(ds);
 
-        Image i = new Image(new File("sample/vot.gif").toURI().toString());
-        ImageView imageViewV1 = new ImageView(i);
 
-        imageViewV1.setX(30);
-        imageViewV1.setX(10);
-        imageViewV1.setPreserveRatio(true);
-        imageViewV1.setCache(true);
-        imageViewV1.setFitWidth(300);
 
-        Text textV1 = new Text("College Id ");
+
+
+
+
+
+
+
+
+
+
+
+
+
+        Text textV1 = new Text("Voter Id ");
         textV1.setX(520);
         textV1.setY(140);
         textV1.setFill(Color.rgb(0,0,0));
@@ -1171,6 +1176,61 @@ public class Main extends Application {
 
 
 
+        Rectangle rectV3= new Rectangle();
+        rectV3.setHeight(10);
+        rectV3.setWidth(3);
+        rectV3.setX(450);
+        rectV3.setY(55);
+        rectV3.setFill(Color.BLACK);
+        rectV3.setArcWidth(3);
+        rectV3.setArcHeight(3);
+
+        Text tV1 = new Text("Ongoing Election");
+//        tE1.setFont(font1);
+        tE1.setFill(Color.BLACK);
+
+
+
+        HBox hbV1 = new HBox();
+        hbV1.getChildren().add(rectV3);
+        hbV1.getChildren().add(tV1);
+        hbV1.setSpacing(20);
+
+        hbV1.setAlignment(Pos.CENTER_LEFT);
+
+        SubScene subV2 = new SubScene(hbV1,360,50);
+
+
+        ListView lsV1 = new ListView();
+        lsV1.setBorder(Border.EMPTY);
+        lsV1.setSelectionModel(null);
+        lsV1.setBackground(Background.EMPTY);
+        lsV1.setStyle("-fx-background-color:#F4F4F4; -fx-control-inner-background:#F4F4F4  ;-fx-control-inner-background-alt:#F4F4F4");
+//        lsE1.onScrollToProperty().addListener();
+
+        int m=4;
+        while(m!=0)
+        {
+            addOnVote(lsV1);
+            m--;
+        }
+
+
+
+
+        SubScene subV9 = new SubScene(lsV1,360,400);
+
+        VBox vbV2 = new VBox();
+        vbV2.getChildren().add(subV2);
+        vbV2.getChildren().add(subV9);
+
+        vbV1.setBackground(Background.EMPTY);
+        SubScene subV3 = new SubScene(vbV2,360,450);
+        subV3.setLayoutY(55);
+        subV3.setLayoutX(55);
+
+
+
 
         groupV.getChildren().add(rectV1);
         groupV.getChildren().add(rectV2);
@@ -1180,8 +1240,8 @@ public class Main extends Application {
         groupV.getChildren().add(vName2);
         groupV.getChildren().add(buttonV1);
         groupV.getChildren().add(subV1);
+        groupV.getChildren().add(subV3);
 
-        groupV.getChildren().add(imageViewV1);
 
 
         //RESULT TAB CONTENTS
@@ -1391,7 +1451,9 @@ public class Main extends Application {
         primaryStage.show();
     }
 
-    private void addOnElection(ListView lsE1) {
+    private void addOnVote(ListView lsV1) {
+
+        Font font1 = Font.font("Helvetica", FontWeight.BOLD, 10);
 
         DropShadow ds = new DropShadow();
         ds.setColor(Color.rgb(230, 230, 230));
@@ -1418,12 +1480,202 @@ public class Main extends Application {
 
         Text Ename = new Text("Election 21");
 
+
+        Button btn1 = new Button();
+        btn1.setText("Started");
+        btn1.setTextFill(Color.WHITE);
+        btn1.setStyle(
+                "-fx-background-color: #349632; focused:-fx-background-color: #FFFFFF ;"
+        );
+        btn1.setFont(font1);
+
+
+        Button btn11 = new Button();
+        btn11.setText("Not Started");
+        btn11.setTextFill(Color.WHITE);
+        btn11.setStyle(
+                "-fx-background-color: #000000; focused:-fx-background-color: #FFFFFF ;"
+        );
+        btn11.setFont(font1);
+
+        btn11.setOnMouseEntered(
+                (MouseEvent) -> {
+                    btn11.setStyle(
+                            "-fx-background-color: #349632; focused:-fx-background-color: #FFFFFF ;"
+                    );
+                    btn11.setCursor(Cursor.HAND);
+                }
+        );
+
+        btn11.setOnMouseExited(
+                (MouseEvent) -> {
+                    btn11.setStyle(
+                            "-fx-background-color: #000000; focused:-fx-background-color: #FFFFFF ;"
+                    );
+                    btn11.setCursor(Cursor.DEFAULT);
+                }
+        );
+
+
+        Rectangle rc = new Rectangle();
+        rc.setWidth(150);
+        Rectangle rc1 = new Rectangle();
+        rc1.setWidth(40);
+        Rectangle rc2 = new Rectangle();
+        rc2.setWidth(20);
+
+
+        boolean started=false;
         HBox hb = new HBox();
         hb.getChildren().add(rectR5);
+        hb.getChildren().add(rc1);
         hb.getChildren().add(Ename);
-        hb.setSpacing(40);
+        hb.getChildren().add(rc);
+        if(started)
+        {
+            hb.getChildren().add(btn1);
+        }
+        else
+        {
+            hb.getChildren().add(btn11);
+        }
+
+        hb.getChildren().add(rc2);
         hb.setAlignment(Pos.CENTER_LEFT);
         hb.setBackground(Background.EMPTY);
+
+
+
+
+
+
+        StackPane sp = new StackPane(rectR2,hb);
+        SubScene sc = new SubScene(sp,340,100);
+        sc.setFill(Color.rgb(246,246,246));
+        lsV1.getItems().add(sc);
+    }
+
+
+    private void addOnElection(ListView lsE1) {
+
+        Font font1 = Font.font("Helvetica", FontWeight.BOLD, 10);
+
+        DropShadow ds = new DropShadow();
+        ds.setColor(Color.rgb(230, 230, 230));
+        ds.setBlurType(BlurType.GAUSSIAN);
+        ds.setRadius(200);
+        ds.setSpread(.03);
+
+        Rectangle rectR5 = new Rectangle();
+        rectR5.setHeight(10);
+        rectR5.setWidth(4);
+        rectR5.setArcWidth(5);
+        rectR5.setArcHeight(5);
+        rectR5.setFill(Color.BLACK);
+
+        Rectangle rectR2 = new Rectangle();
+        rectR2.setHeight(80);
+        rectR2.setWidth(320);
+        rectR2.setX(60);
+        rectR2.setY(55);
+        rectR2.setFill(Color.WHITE);
+        rectR2.setArcWidth(20);
+        rectR2.setArcHeight(20);
+//        rectR2.setEffect(ds);
+
+        Text Ename = new Text("Election 21");
+
+
+            Button btn1 = new Button();
+            btn1.setText("Started");
+            btn1.setTextFill(Color.WHITE);
+            btn1.setStyle(
+                    "-fx-background-color: #349632; focused:-fx-background-color: #FFFFFF ;"
+            );
+            btn1.setFont(font1);
+
+
+            Button btn11 = new Button();
+            btn11.setText("Start");
+            btn11.setTextFill(Color.WHITE);
+            btn11.setStyle(
+                    "-fx-background-color: #000000; focused:-fx-background-color: #FFFFFF ;"
+            );
+            btn11.setFont(font1);
+
+            btn11.setOnMouseEntered(
+                    (MouseEvent) -> {
+                        btn11.setStyle(
+                                "-fx-background-color: #349632; focused:-fx-background-color: #FFFFFF ;"
+                        );
+                        btn11.setCursor(Cursor.HAND);
+                    }
+            );
+
+            btn11.setOnMouseExited(
+                    (MouseEvent) -> {
+                        btn11.setStyle(
+                                "-fx-background-color: #000000; focused:-fx-background-color: #FFFFFF ;"
+                        );
+                        btn11.setCursor(Cursor.DEFAULT);
+                    }
+            );
+
+
+        Button btn2 = new Button();
+        btn2.setText("End");
+        btn2.setTextFill(Color.WHITE);
+        btn2.setStyle(
+                "-fx-background-color: #000000; focused:-fx-background-color: #FFFFFF ;"
+        );
+        btn2.setFont(font1);
+        btn2.setOnMouseEntered(
+                (MouseEvent)->{
+                    btn2.setStyle(
+                            "-fx-background-color: #EE1320; focused:-fx-background-color: #FFFFFF ;"
+                    );
+                    btn2.setCursor(Cursor.HAND);
+                }
+        );
+
+        btn2.setOnMouseExited(
+                (MouseEvent)->{
+                    btn2.setStyle(
+                            "-fx-background-color: #000000; focused:-fx-background-color: #FFFFFF ;"
+                    );
+                    btn2.setCursor(Cursor.DEFAULT);
+                }
+        );
+
+        Rectangle rc = new Rectangle();
+        rc.setWidth(110);
+        Rectangle rc1 = new Rectangle();
+        rc1.setWidth(30);
+        Rectangle rc2 = new Rectangle();
+        rc2.setWidth(20);
+
+
+        boolean started=true;
+        HBox hb = new HBox();
+        hb.getChildren().add(rectR5);
+        hb.getChildren().add(rc1);
+        hb.getChildren().add(Ename);
+        hb.getChildren().add(rc);
+        if(started)
+        {
+            hb.getChildren().add(btn1);
+        }
+        else
+        {
+            hb.getChildren().add(btn11);
+        }
+
+        hb.getChildren().add(rc2);
+        hb.getChildren().add(btn2);
+        hb.setAlignment(Pos.CENTER_LEFT);
+        hb.setBackground(Background.EMPTY);
+
+
 
 
 
