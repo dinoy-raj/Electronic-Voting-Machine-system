@@ -183,4 +183,8 @@ public class MySQL {
             e.printStackTrace();
         }
     }
+
+    public void test() {
+
+    }
 }
