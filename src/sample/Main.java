@@ -433,7 +433,7 @@ public class Main extends Application {
             eName3.setLayoutY(200);
             eName3.setStyle("-fx-focus-color: transparent;-fx-background-color: -fx-control-inner-background;");
             eName3.setEffect(ds);
-            eName3.setDisable(true);
+            eName3.setEditable(false);
 
 
             //TextField 1
@@ -445,7 +445,7 @@ public class Main extends Application {
             eName4.setLayoutY(200);
             eName4.setStyle("-fx-focus-color: transparent;-fx-background-color: -fx-control-inner-background;");
             eName4.setEffect(ds);
-            eName4.setDisable(true);
+            eName4.setEditable(false);
 
             //TextField 1
             TextField eName5 = new TextField();
@@ -483,9 +483,6 @@ public class Main extends Application {
 
             ch.selectedProperty().addListener(
                     (ObservableValue<? extends Boolean> ov, Boolean old_val, Boolean new_val) -> {
-
-                        String str = randomid();
-
                         if (ch.isSelected()) {
                             try {
                                 ResultSet rs = db.getCandidate(eName5.getText());
@@ -496,15 +493,13 @@ public class Main extends Application {
 
                                 eName5.setEditable(false);
 
-                                db.addCandidate(str, postId, eName5.getText(), 0);
+                                db.addCandidate(randomid(), postId, eName5.getText(), 0);
                             } catch (SQLException e) {
                                 e.printStackTrace();
                             }
                         }
                         if (!ch.isSelected()) {
                             eName5.setEditable(true);
-
-                            db.deleteCandidate(str);
                         }
 
                         System.out.println(s1);
@@ -600,6 +595,7 @@ public class Main extends Application {
 
         ch.selectedProperty().addListener(
                 (ObservableValue<? extends Boolean> ov, Boolean old_val, Boolean new_val) -> {
+
                     if (ch.isSelected()) {
                         eName3.setEditable(false);
                         eName4.setEditable(false);

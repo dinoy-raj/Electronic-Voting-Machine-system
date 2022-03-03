@@ -51,10 +51,22 @@ public class MySQL {
     public void endElection(String electionID) {
         try {
             Statement stmt = connection.createStatement();
-            stmt.executeUpdate("UPDATE ELECTIONS SET isEnded = true WHERE ID = '" + electionID + "');");
+            stmt.executeUpdate("UPDATE ELECTIONS SET isEnded = true WHERE ID = '" + electionID + "';");
 
             Statement stmt1 = connection.createStatement();
-            stmt.executeQuery("SELECT voter_id FROM CANDIDATES WHERE count = max(count) AND id in (SELECT id from POSTS WHERE election_id = '" + electionID + "');");
+            ResultSet rs = stmt1.executeQuery("SELECT * FROM CANDIDATES WHERE post_id in (SELECT id from POSTS WHERE election_id = '" + electionID + "') order by post_id, count desc;");
+
+            rs.next();
+            String temp = rs.getString("post_id");
+            addResult(electionID, rs.getString("id"));
+
+            do {
+                if (!temp.equals(rs.getString("post_id"))) {
+                    temp = rs.getString("post_id");
+
+                    addResult(electionID, rs.getString("id"));
+                }
+            } while (rs.next());
         } catch (SQLException e) {
             e.printStackTrace();
 
@@ -74,7 +86,7 @@ public class MySQL {
     public void deletePost(String ID) {
         try {
             Statement stmt = connection.createStatement();
-            stmt.executeUpdate("DELETE FROM POSTS WHERE id = '" + ID + "');");
+            stmt.executeUpdate("DELETE FROM POSTS WHERE id = '" + ID + "';");
         } catch (SQLException e) {
             e.printStackTrace();
 
@@ -94,7 +106,7 @@ public class MySQL {
     public void deleteCandidate(String ID) {
         try {
             Statement stmt = connection.createStatement();
-            stmt.executeUpdate("DELETE FROM CANDIDATES WHERE id = '" + ID + "');");
+            stmt.executeUpdate("DELETE FROM CANDIDATES WHERE id = '" + ID + "';");
         } catch (SQLException e) {
             e.printStackTrace();
 
@@ -167,7 +179,7 @@ public class MySQL {
     public ResultSet getCandidate(String voterID) {
         try {
             Statement stmt = connection.createStatement();
-            return stmt.executeQuery("SELECT * FROM VOTERS WHERE voter_id = '" + voterID + "';");
+            return stmt.executeQuery("SELECT * FROM VOTERS WHERE id = '" + voterID + "';");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -254,7 +266,24 @@ public class MySQL {
         }
     }
 
-    public void test() {
+    public ResultSet getResults(String electionID) {
+        try {
+            Statement stmt = connection.createStatement();
+            return stmt.executeQuery("SELECT * from VOTERS WHERE id in (SELECT voter_id FROM CANDIDATES WHERE id in (SELECT winner_id FROM RESULTS WHERE election_id = '" + electionID + "'));");
 
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    public void test() {
+//        addEligibleVoter("XN9rg3sRpI", "V10001", "12345");
+//        addEligibleVoter("XN9rg3sRpI", "V10002", "12345");
+//        addEligibleVoter("XN9rg3sRpI", "V10003", "12345");
+//        addEligibleVoter("XN9rg3sRpI", "V10004", "12345");
+//        addEligibleVoter("XN9rg3sRpI", "V10005", "12345");
     }
 }
