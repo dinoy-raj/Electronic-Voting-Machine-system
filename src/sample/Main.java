@@ -2,12 +2,10 @@ package sample;
 
 import database.MySQL;
 import javafx.application.Application;
-import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
-import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.*;
 import javafx.scene.control.*;
@@ -23,8 +21,9 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-import javax.swing.text.Style;
-import java.io.File;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Random;
 
 
 public class Main extends Application {
@@ -32,10 +31,12 @@ public class Main extends Application {
     // data inputs
     String election_Name;
     int position;
-    String s1,s2;
+    String s1, s2;
+    String creator_id = "u1001";
+    String elect_id;
+    static MySQL db = new MySQL();
 
     public static void main(String[] args) {
-        MySQL db = new MySQL();
         db.connectJDBC();
         db.test();
         launch(args);
@@ -52,6 +53,42 @@ public class Main extends Application {
     Group groupE0 = new Group();
     Group groupE2 = new Group();
 
+
+    //function switch sub scene(tabs) on selecting
+    public String randomid() {
+        // create a string of uppercase and lowercase characters and numbers
+        String upperAlphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        String lowerAlphabet = "abcdefghijklmnopqrstuvwxyz";
+        String numbers = "0123456789";
+
+        // combine all strings
+        String alphaNumeric = upperAlphabet + lowerAlphabet + numbers;
+
+        // create random string builder
+        StringBuilder sb = new StringBuilder();
+
+        // create an object of Random class
+        Random random = new Random();
+
+        // specify length of random string
+        int length = 10;
+
+        for (int i = 0; i < length; i++) {
+
+            // generate random index number
+            int index = random.nextInt(alphaNumeric.length());
+
+            // get character specified by index
+            // from the string
+            char randomChar = alphaNumeric.charAt(index);
+
+            // append the character to string builder
+            sb.append(randomChar);
+        }
+
+        String randomString = sb.toString();
+        return randomString;
+    }
 
     //function switch sub scene(tabs) on selecting
     public void switchScene(SubScene rect1, SubScene rect2, SubScene rect3) {
@@ -78,10 +115,8 @@ public class Main extends Application {
     }
 
 
-
-
     //function switch subwindows in election tab
-    public void switchEgroup(Group g1,Group g3,int pos){
+    public void switchEgroup(Group g1, Group g3, int pos, String elect_id) {
 
 
         Font font1 = Font.font("Helvetica", FontWeight.BOLD, 14);
@@ -128,15 +163,14 @@ public class Main extends Application {
         tE23.setY(90);
 
 
-
         ListView lsE2 = new ListView();
         lsE2.setBorder(Border.EMPTY);
         lsE2.setStyle("-fx-background-color:#F4F4F4; -fx-control-inner-background:#F4F4F4  ;-fx-control-inner-background-alt:#F4F4F4");
         lsE2.setSelectionModel(null);
 
-        int u=0;
-        while (u!=pos) {
-            addItem(lsE2, u);
+        int u = 0;
+        while (u != pos) {
+            addItem(lsE2, u, elect_id);
             u++;
         }
 
@@ -147,16 +181,16 @@ public class Main extends Application {
         buttonE1.setTextFill(Color.WHITE);
         buttonE1.setLayoutX(520);
         buttonE1.setLayoutY(450);
-        buttonE1.setPrefSize(390,40);
+        buttonE1.setPrefSize(390, 40);
         buttonE1.setStyle(
-                "-fx-background-color: #000000; focused:-fx-background-color: #FFFFFF ;"
+                "-fx-background-color: #000000;"
         );
         buttonE1.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
 
                 lsE2.getItems().clear();
-                switchE2group(g1,groupE0,pos,Integer.parseInt(s2));
+                switchE2group(g1, groupE0, pos, Integer.parseInt(s2), elect_id);
 
 
             }
@@ -167,22 +201,20 @@ public class Main extends Application {
         hb.getChildren().add(buttonE1);
         hb.setAlignment(Pos.CENTER);
 
-        SubScene s1 = new SubScene(hb,830,70);
+        SubScene s1 = new SubScene(hb, 830, 70);
 
         buttonE1.setOnMouseEntered(mouseEvent -> {
-           s1.setCursor(Cursor.HAND);
+            s1.setCursor(Cursor.HAND);
         });
 
-        buttonE1.setOnMouseExited(mouseEvent ->{
+        buttonE1.setOnMouseExited(mouseEvent -> {
             s1.setCursor(Cursor.DEFAULT);
         });
 
         lsE2.getItems().add(s1);
 
 
-
-
-        SubScene subE23 = new SubScene(lsE2,860,380);
+        SubScene subE23 = new SubScene(lsE2, 860, 380);
         subE23.setFill(Color.rgb(246, 246, 246));
         subE23.setLayoutX(60);
         subE23.setLayoutY(130);
@@ -196,17 +228,14 @@ public class Main extends Application {
         groupE0.getChildren().add(subE23);
 
 
-
-
-
         g1.getChildren().remove(g3);
         g1.getChildren().add(groupE0);
 
     }
 
 
-    //function switch subwindows in election tab
-    public void switchE2group(Group g1,Group g3,int pos,int num){
+    //function switch subWindows in election tab
+    public void switchE2group(Group g1, Group g3, int pos, int num, String elect_id) {
 
         Font font1 = Font.font("Helvetica", FontWeight.BOLD, 14);
 
@@ -215,7 +244,6 @@ public class Main extends Application {
         ds.setBlurType(BlurType.GAUSSIAN);
         ds.setRadius(200);
         ds.setSpread(.03);
-
 
 
         //ELECTION TAB2 CONTENT
@@ -264,14 +292,18 @@ public class Main extends Application {
         lsE3.setStyle("-fx-background-color:#F4F4F4; -fx-control-inner-background:#F4F4F4  ;-fx-control-inner-background-alt:#F4F4F4");
         lsE3.setSelectionModel(null);
 
+        try {
+            ResultSet rs = db.getPosts(elect_id);
 
+            while (
+                    rs.next()) {
 
-        int u=0;
-        while (u!=pos) {
-            addItem2(lsE3, u,num);
-            u++;
+                addItem2(lsE3, rs.getString("id"), rs.getString("name"), rs.getInt("num_candidates"));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-
 
 
         //PROCEED button
@@ -281,7 +313,7 @@ public class Main extends Application {
         buttonE1.setTextFill(Color.WHITE);
         buttonE1.setLayoutX(520);
         buttonE1.setLayoutY(450);
-        buttonE1.setPrefSize(390,40);
+        buttonE1.setPrefSize(390, 40);
         buttonE1.setStyle(
                 "-fx-background-color: #000000; focused:-fx-background-color: #FFFFFF ;"
         );
@@ -290,7 +322,7 @@ public class Main extends Application {
             public void handle(ActionEvent actionEvent) {
 
                 lsE3.getItems().clear();
-                switchE3group(g1,groupE2);
+                switchE3group(g1, groupE2);
 
 
             }
@@ -301,22 +333,20 @@ public class Main extends Application {
         hb.getChildren().add(buttonE1);
         hb.setAlignment(Pos.CENTER);
 
-        SubScene s1 = new SubScene(hb,830,70);
+        SubScene s1 = new SubScene(hb, 830, 70);
 
         buttonE1.setOnMouseEntered(mouseEvent -> {
             s1.setCursor(Cursor.HAND);
         });
 
-        buttonE1.setOnMouseExited(mouseEvent ->{
+        buttonE1.setOnMouseExited(mouseEvent -> {
             s1.setCursor(Cursor.DEFAULT);
         });
 
         lsE3.getItems().add(s1);
 
 
-
-
-        SubScene subE23 = new SubScene(lsE3,880,360);
+        SubScene subE23 = new SubScene(lsE3, 880, 360);
         subE23.setFill(Color.rgb(246, 246, 246));
         subE23.setLayoutX(60);
         subE23.setLayoutY(150);
@@ -334,9 +364,7 @@ public class Main extends Application {
 
     }
 
-    public void addItem2(ListView l1, int i, int num)
-    {
-        String s = Integer.toString(i);
+    public void addItem2(ListView l1, String postId, String postLabel, int num) {
         //shadow effect to bottom navbar
         DropShadow ds = new DropShadow();
         ds.setColor(Color.rgb(230, 230, 230));
@@ -371,7 +399,7 @@ public class Main extends Application {
         rectE24.setEffect(ds);
 
 
-        Text tE21 = new Text(s1);
+        Text tE21 = new Text(postLabel);
 
         tE21.setX(120);
         tE21.setY(90);
@@ -385,46 +413,44 @@ public class Main extends Application {
         hb2.setAlignment(Pos.CENTER_LEFT);
         hb2.setBackground(Background.EMPTY);
 
-        StackPane sp = new StackPane(rectE22,hb2);
+        StackPane sp = new StackPane(rectE22, hb2);
 
-        SubScene sub2 = new SubScene(sp,850,70);
+        SubScene sub2 = new SubScene(sp, 850, 70);
         sub2.setFill(Color.rgb(246, 246, 246));
         l1.getItems().add(sub2);
 
 
-
-
-       int n=0;
-       int t;
-        while(n!=num){
-            t=n+1;
+        int n = 0;
+        int t;
+        while (n != num) {
+            t = n + 1;
             //TextField 1
             TextField eName3 = new TextField();
-            eName3.setPromptText("Candidate name "+t);
-            eName3.setPrefSize(200,40);
+            eName3.setPromptText("Candidate name " + t);
+            eName3.setPrefSize(200, 40);
             eName3.setLayoutX(520);
             eName3.setPadding(new Insets(10, 10, 10, 25));
             eName3.setLayoutY(200);
             eName3.setStyle("-fx-focus-color: transparent;-fx-background-color: -fx-control-inner-background;");
             eName3.setEffect(ds);
-
-
+            eName3.setDisable(true);
 
 
             //TextField 1
             TextField eName4 = new TextField();
             eName4.setPromptText("F / M");
-            eName4.setPrefSize(100,40);
+            eName4.setPrefSize(100, 40);
             eName4.setLayoutX(520);
             eName4.setPadding(new Insets(10, 10, 10, 25));
             eName4.setLayoutY(200);
             eName4.setStyle("-fx-focus-color: transparent;-fx-background-color: -fx-control-inner-background;");
             eName4.setEffect(ds);
+            eName4.setDisable(true);
 
             //TextField 1
-            TextField eName5= new TextField();
+            TextField eName5 = new TextField();
             eName5.setPromptText("190***");
-            eName5.setPrefSize(200,40);
+            eName5.setPrefSize(200, 40);
             eName5.setLayoutX(520);
             eName5.setPadding(new Insets(10, 10, 10, 25));
             eName5.setLayoutY(200);
@@ -435,24 +461,18 @@ public class Main extends Application {
             CheckBox ch = new CheckBox();
             ch.setCursor(Cursor.HAND);
 
-            if(eName3.getText().isEmpty() ||eName4.getText().isEmpty()  )
-            {
+            if (eName5.getText().isEmpty()) {
                 ch.setDisable(true);
-            }
-            else
-            {
+            } else {
                 ch.setDisable(false);
 
             }
 
-            eName3.textProperty().addListener(
-                    (observable, oldValue, newValue)->{
-                        if(eName3.getText().isEmpty() ||eName4.getText().isEmpty()  )
-                        {
+            eName5.textProperty().addListener(
+                    (observable, oldValue, newValue) -> {
+                        if (eName5.getText().isEmpty()) {
                             ch.setDisable(true);
-                        }
-                        else
-                        {
+                        } else {
                             ch.setDisable(false);
 
                         }
@@ -460,36 +480,31 @@ public class Main extends Application {
                     }
             );
 
-            eName4.textProperty().addListener(
-                    (observable, oldValue, newValue)->{
-                        if(eName3.getText().isEmpty() ||eName4.getText().isEmpty()  )
-                        {
-                            ch.setDisable(true);
-                        }
-                        else
-                        {
-                            ch.setDisable(false);
-
-                        }
-
-                    }
-            );
 
             ch.selectedProperty().addListener(
                     (ObservableValue<? extends Boolean> ov, Boolean old_val, Boolean new_val) -> {
 
+                        String str = randomid();
 
-                        if(ch.isSelected())
-                        {
-                            eName3.setEditable(false);
-                            eName4.setEditable(false);
-                            s1 = eName3.getText();
-                            s2 = eName4.getText();
+                        if (ch.isSelected()) {
+                            try {
+                                ResultSet rs = db.getCandidate(eName5.getText());
+                                rs.next();
+
+                                eName3.setText(rs.getString("name"));
+                                eName4.setText(rs.getString("gender"));
+
+                                eName5.setEditable(false);
+
+                                db.addCandidate(str, postId, eName5.getText(), 0);
+                            } catch (SQLException e) {
+                                e.printStackTrace();
+                            }
                         }
-                        if(!ch.isSelected())
-                        {
-                            eName3.setEditable(true);
-                            eName4.setEditable(true);
+                        if (!ch.isSelected()) {
+                            eName5.setEditable(true);
+
+                            db.deleteCandidate(str);
                         }
 
                         System.out.println(s1);
@@ -505,7 +520,7 @@ public class Main extends Application {
             hb.setAlignment(Pos.CENTER);
             hb.setBackground(Background.EMPTY);
 
-            SubScene sub1 = new SubScene(hb,850,70);
+            SubScene sub1 = new SubScene(hb, 850, 70);
             sub1.setFill(Color.rgb(246, 246, 246));
 
             l1.getItems().add(sub1);
@@ -517,8 +532,7 @@ public class Main extends Application {
 
 
     //add item to list
-    public void addItem(ListView l1, int i)
-    {
+    public void addItem(ListView l1, int i, String elect_id) {
         String s = Integer.toString(i);
         //shadow effect to bottom navbar
         DropShadow ds = new DropShadow();
@@ -530,8 +544,8 @@ public class Main extends Application {
 
         //TextField 1
         TextField eName3 = new TextField();
-        eName3.setPromptText("Position name "+s);
-        eName3.setPrefSize(300,40);
+        eName3.setPromptText("Position name " + s);
+        eName3.setPrefSize(300, 40);
         eName3.setLayoutX(520);
         eName3.setPadding(new Insets(10, 10, 10, 25));
         eName3.setLayoutY(200);
@@ -539,12 +553,10 @@ public class Main extends Application {
         eName3.setEffect(ds);
 
 
-
-
         //TextField 1
         TextField eName4 = new TextField();
         eName4.setPromptText("0");
-        eName4.setPrefSize(300,40);
+        eName4.setPrefSize(300, 40);
         eName4.setLayoutX(520);
         eName4.setPadding(new Insets(10, 10, 10, 25));
         eName4.setLayoutY(200);
@@ -555,24 +567,18 @@ public class Main extends Application {
         CheckBox ch = new CheckBox();
         ch.setCursor(Cursor.HAND);
 
-        if(eName3.getText().isEmpty() ||eName4.getText().isEmpty()  )
-        {
+        if (eName3.getText().isEmpty() || eName4.getText().isEmpty()) {
             ch.setDisable(true);
-        }
-        else
-        {
+        } else {
             ch.setDisable(false);
 
         }
 
         eName3.textProperty().addListener(
-                (observable, oldValue, newValue)->{
-                    if(eName3.getText().isEmpty() ||eName4.getText().isEmpty()  )
-                    {
+                (observable, oldValue, newValue) -> {
+                    if (eName3.getText().isEmpty() || eName4.getText().isEmpty()) {
                         ch.setDisable(true);
-                    }
-                    else
-                    {
+                    } else {
                         ch.setDisable(false);
 
                     }
@@ -581,13 +587,10 @@ public class Main extends Application {
         );
 
         eName4.textProperty().addListener(
-                (observable, oldValue, newValue)->{
-                    if(eName3.getText().isEmpty() ||eName4.getText().isEmpty()  )
-                    {
+                (observable, oldValue, newValue) -> {
+                    if (eName3.getText().isEmpty() || eName4.getText().isEmpty()) {
                         ch.setDisable(true);
-                    }
-                    else
-                    {
+                    } else {
                         ch.setDisable(false);
 
                     }
@@ -597,15 +600,15 @@ public class Main extends Application {
 
         ch.selectedProperty().addListener(
                 (ObservableValue<? extends Boolean> ov, Boolean old_val, Boolean new_val) -> {
-                    if(ch.isSelected())
-                    {
+                    if (ch.isSelected()) {
                         eName3.setEditable(false);
                         eName4.setEditable(false);
                         s1 = eName3.getText();
                         s2 = eName4.getText();
+
+                        db.addPost(randomid(), elect_id, s1, Integer.parseInt(s2));
                     }
-                    if(!ch.isSelected())
-                    {
+                    if (!ch.isSelected()) {
                         eName3.setEditable(true);
                         eName4.setEditable(true);
                     }
@@ -622,7 +625,7 @@ public class Main extends Application {
         hb.setAlignment(Pos.CENTER);
         hb.setBackground(Background.EMPTY);
 
-        SubScene s1 = new SubScene(hb,830,70);
+        SubScene s1 = new SubScene(hb, 830, 70);
 
         l1.setBorder(Border.EMPTY);
         s1.setFill(Color.rgb(246, 246, 246));
@@ -631,8 +634,7 @@ public class Main extends Application {
         l1.getItems().add(s1);
     }
 
-    public void   switchE3group(Group g1,Group g2)
-    {
+    public void switchE3group(Group g1, Group g2) {
         g1.getChildren().remove(g2);
         g1.getChildren().add(groupE);
     }
@@ -675,8 +677,6 @@ public class Main extends Application {
         sd.setSpread(.03);
 
 
-
-
         //tabs
         Button btn2 = new Button("Result");
         Button btn1 = new Button("Vote");
@@ -685,7 +685,7 @@ public class Main extends Application {
         //TAB TEXT FONTS
         Font font1 = Font.font("Helvetica", FontWeight.BOLD, 14);
         Font font2 = Font.font("Helvetica", 14);
-       // Font fontE1 = Font.font("Roboto", FontWeight.SEMI_BOLD, 13);
+        // Font fontE1 = Font.font("Roboto", FontWeight.SEMI_BOLD, 13);
 
 
         //Focus Rectangle for tabs
@@ -721,7 +721,7 @@ public class Main extends Application {
         btn.setPrefSize(200, 60);
         btn.setBorder(Border.EMPTY);
         btn.setTextFill(Color.WHITE);
-        btn.setStyle("-fx-background-color: transparent; focused:-fx-background-color: #000000 ;"
+        btn.setStyle("-fx-background-color: transparent; "
         );
         btn.setLayoutX(120);
         btn.setLayoutY(550);
@@ -745,7 +745,7 @@ public class Main extends Application {
         //button for vote tab
         btn1.setPrefSize(200, 60);
         btn1.setBorder(Border.EMPTY);
-        btn1.setStyle("-fx-background-color: transparent; focused:-fx-background-color: #000000 ;"
+        btn1.setStyle("-fx-background-color: transparent; "
         );
         btn1.setLayoutX(390);
         btn1.setLayoutY(550);
@@ -773,7 +773,7 @@ public class Main extends Application {
         //button for election tab
         btn2.setPrefSize(200, 60);
         btn2.setBorder(Border.EMPTY);
-        btn2.setStyle("-fx-background-color: transparent; focused:-fx-background-color: #000000 ;"
+        btn2.setStyle("-fx-background-color: transparent; "
         );
         btn2.setLayoutX(670);
         btn2.setLayoutY(550);
@@ -792,8 +792,6 @@ public class Main extends Application {
         });
 
         btn2.setFont(font2);
-
-
 
 
         //ELECTION TAB CONTENTS
@@ -816,7 +814,7 @@ public class Main extends Application {
         rectE2.setArcHeight(1);
 
 
-        Rectangle rectE3= new Rectangle();
+        Rectangle rectE3 = new Rectangle();
         rectE3.setHeight(10);
         rectE3.setWidth(3);
         rectE3.setX(450);
@@ -830,7 +828,6 @@ public class Main extends Application {
         tE1.setFill(Color.BLACK);
 
 
-
         HBox hbE1 = new HBox();
         hbE1.getChildren().add(rectE3);
         hbE1.getChildren().add(tE1);
@@ -838,7 +835,7 @@ public class Main extends Application {
 
         hbE1.setAlignment(Pos.CENTER_LEFT);
 
-        SubScene subE2 = new SubScene(hbE1,360,50);
+        SubScene subE2 = new SubScene(hbE1, 360, 50);
 
 
         ListView lsE1 = new ListView();
@@ -848,24 +845,21 @@ public class Main extends Application {
         lsE1.setStyle("-fx-background-color:#F4F4F4; -fx-control-inner-background:#F4F4F4  ;-fx-control-inner-background-alt:#F4F4F4");
 //        lsE1.onScrollToProperty().addListener();
 
-        int n=4;
-        while(n!=0)
-        {
+        int n = 4;
+        while (n != 0) {
             addOnElection(lsE1);
             n--;
         }
 
 
-
-
-        SubScene subE9 = new SubScene(lsE1,360,400);
+        SubScene subE9 = new SubScene(lsE1, 360, 400);
 
         VBox vbE1 = new VBox();
         vbE1.getChildren().add(subE2);
         vbE1.getChildren().add(subE9);
 
         vbE1.setBackground(Background.EMPTY);
-        SubScene subE1 = new SubScene(vbE1,360,450);
+        SubScene subE1 = new SubScene(vbE1, 360, 450);
         subE1.setLayoutY(55);
         subE1.setLayoutX(55);
 
@@ -886,31 +880,29 @@ public class Main extends Application {
         rectE9.setArcWidth(1);
         rectE9.setArcHeight(1);
 
-         HBox hbh = new HBox();
-         hbh.getChildren().add(viewh);
-         hbh.getChildren().add(tEh);
-         hbh.getChildren().add(rectE9);
-         hbh.setAlignment(Pos.CENTER);
-         hbh.setSpacing(20);
+        HBox hbh = new HBox();
+        hbh.getChildren().add(viewh);
+        hbh.getChildren().add(tEh);
+        hbh.getChildren().add(rectE9);
+        hbh.setAlignment(Pos.CENTER);
+        hbh.setSpacing(20);
 
-         SubScene sc = new SubScene(hbh,460,30);
-         sc.setLayoutY(65);
-         sc.setLayoutX(480);
+        SubScene sc = new SubScene(hbh, 460, 30);
+        sc.setLayoutY(65);
+        sc.setLayoutX(480);
 
 
         Text textE1 = new Text("Election Name  : ");
         textE1.setX(520);
         textE1.setY(220);
-        textE1.setFill(Color.rgb(108,108,108));
+        textE1.setFill(Color.rgb(108, 108, 108));
         textE1.setFont(font1);
 
         Text textE2 = new Text("Number Of Posts  : ");
         textE2.setX(520);
         textE2.setY(340);
-        textE2.setFill(Color.rgb(108,108,108));
+        textE2.setFill(Color.rgb(108, 108, 108));
         textE2.setFont(font1);
-
-
 
 
         Image img = new Image("sample/right.png");
@@ -922,23 +914,22 @@ public class Main extends Application {
         //TextField 1
         TextField eName1 = new TextField();
         eName1.setPromptText(" Union  election 2021");
-        eName1.setPrefSize(400,40);
+        eName1.setPrefSize(400, 40);
         eName1.setLayoutX(520);
         eName1.setPadding(new Insets(10, 10, 10, 25));
         eName1.setLayoutY(240);
-        eName1.setStyle("-fx-focus-color: transparent;-fx-background-color: -fx-control-inner-background;");
+        eName1.setStyle("-fx-background-color: -fx-control-inner-background;");
         eName1.setEffect(ds);
 
         //TextField2
         TextField eName2 = new TextField();
         eName2.setPromptText("10 or 15...");
-        eName2.setPrefSize(400,40);
+        eName2.setPrefSize(400, 40);
         eName2.setLayoutX(520);
         eName2.setLayoutY(365);
         eName2.setPadding(new Insets(10, 10, 10, 25));
-        eName2.setStyle("-fx-focus-color:transparent;-fx-background-color: -fx-control-inner-background;");
+        eName2.setStyle("-fx-background-color: -fx-control-inner-background;");
         eName1.setEffect(ds);
-
 
 
         //PROCEED button
@@ -950,32 +941,32 @@ public class Main extends Application {
         buttonE1.setTextFill(Color.WHITE);
         buttonE1.setLayoutX(520);
         buttonE1.setLayoutY(450);
-        buttonE1.setPrefSize(390,40);
+        buttonE1.setPrefSize(390, 40);
         buttonE1.setStyle(
-                "-fx-background-color: #000000; focused:-fx-background-color: #FFFFFF ;"
+                "-fx-background-color: #000000; "
         );
         buttonE1.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
                 election_Name = eName1.getText();
                 position = Integer.parseInt(eName2.getText());
-                switchEgroup(groupE1,groupE,position);
+
+                elect_id = randomid();
+                db.addElection(elect_id, creator_id, election_Name, false, false);
+                switchEgroup(groupE1, groupE, position, elect_id);
 
             }
         });
 
         DropShadow dsB = new DropShadow();
-        dsB.setColor(Color.rgb(134,134,134));
+        dsB.setColor(Color.rgb(134, 134, 134));
         dsB.setBlurType(BlurType.GAUSSIAN);
         dsB.setRadius(20);
         dsB.setSpread(.01);
 
 
-
-
-
         DropShadow dsE = new DropShadow();
-        dsE.setColor(Color.rgb(134,134,134));
+        dsE.setColor(Color.rgb(134, 134, 134));
         dsE.setBlurType(BlurType.GAUSSIAN);
         dsE.setRadius(20);
         dsE.setSpread(.01);
@@ -983,31 +974,28 @@ public class Main extends Application {
         rect.setEffect(ds);
 
         EventHandler<MouseEvent> mouseEntered = e1 -> {
-        sceneE.setCursor(Cursor.HAND);
-            buttonE1.setPrefSize(389,40);
+            sceneE.setCursor(Cursor.HAND);
+            buttonE1.setPrefSize(389, 40);
             buttonE1.setLayoutX(520);
             buttonE1.setLayoutY(451);
             buttonE1.setGraphicTextGap(15);
-            buttonE1.setStyle("-fx-background-color: #131313; focused:-fx-background-color: #000000 ;");
+            buttonE1.setStyle("-fx-background-color: #131313; ");
         };
 
         buttonE1.setOnMouseEntered(mouseEntered);
 
         EventHandler<MouseEvent> mouseExited = e2 -> {
-        sceneE.setCursor(Cursor.DEFAULT);
+            sceneE.setCursor(Cursor.DEFAULT);
             buttonE1.setLayoutX(520);
             buttonE1.setLayoutY(450);
-            buttonE1.setPrefSize(390,40);
+            buttonE1.setPrefSize(390, 40);
             buttonE1.setGraphicTextGap(10);
             buttonE1.setStyle(
-                    "-fx-background-color: #000000; focused:-fx-background-color: #FFFFFF ;"
+                    "-fx-background-color: #000000;  ;"
             );
         };
 
         buttonE1.setOnMouseExited(mouseExited);
-
-
-
 
 
         groupE.getChildren().add(rectE1);
@@ -1024,8 +1012,6 @@ public class Main extends Application {
         groupE1.getChildren().add(groupE);
 
 
-
-
         //VOTE TAB CONTENTS
 
 
@@ -1039,10 +1025,9 @@ public class Main extends Application {
         vbV1.setBackground(Background.EMPTY);
         vbV1.setAlignment(Pos.CENTER);
         vbV1.getChildren().add(view2);
-        SubScene subV1 = new SubScene(vbV1,400,450);
+        SubScene subV1 = new SubScene(vbV1, 400, 450);
         subV1.setLayoutX(60);
         subV1.setLayoutY(60);
-
 
 
         Rectangle rectV1 = new Rectangle();
@@ -1066,30 +1051,16 @@ public class Main extends Application {
         rectV2.setEffect(ds);
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         Text textV1 = new Text("Voter Id ");
         textV1.setX(520);
         textV1.setY(140);
-        textV1.setFill(Color.rgb(0,0,0));
+        textV1.setFill(Color.rgb(0, 0, 0));
         textV1.setFont(font1);
 
         Text textV2 = new Text("Password ");
         textV2.setX(520);
         textV2.setY(280);
-        textV2.setFill(Color.rgb(0,0,0));
+        textV2.setFill(Color.rgb(0, 0, 0));
         textV2.setFont(font1);
 
 
@@ -1101,7 +1072,7 @@ public class Main extends Application {
 
         //TextField 1
         TextField vName1 = new TextField();
-        vName1.setPrefSize(370,40);
+        vName1.setPrefSize(370, 40);
         vName1.setLayoutX(520);
         vName1.setPadding(new Insets(10, 10, 10, 25));
         vName1.setLayoutY(170);
@@ -1109,10 +1080,9 @@ public class Main extends Application {
         vName1.setEffect(ds);
 
 
-
         //TextField2
         PasswordField vName2 = new PasswordField();
-        vName2.setPrefSize(370,40);
+        vName2.setPrefSize(370, 40);
         vName2.setLayoutX(520);
         vName2.setLayoutY(310);
         vName2.setPadding(new Insets(10, 10, 10, 25));
@@ -1120,7 +1090,6 @@ public class Main extends Application {
         vName2.setEffect(ds);
 
         vName2.setVisible(true);
-
 
 
         Button buttonV1 = new Button();
@@ -1131,28 +1100,24 @@ public class Main extends Application {
         buttonV1.setTextFill(Color.WHITE);
         buttonV1.setLayoutX(545);
         buttonV1.setLayoutY(410);
-        buttonV1.setPrefSize(320,40);
+        buttonV1.setPrefSize(320, 40);
         buttonV1.setStyle(
-                "-fx-background-color: #000000; focused:-fx-background-color: #FFFFFF ;"
+                "-fx-background-color: #000000; "
         );
 
-        buttonV1.setOnAction((actionEvent)->{
-            if(vName1.getText().isEmpty())
-            {
+        buttonV1.setOnAction((actionEvent) -> {
+            if (vName1.getText().isEmpty()) {
 
             }
 
         });
 
 
-
-
-
         rect.setEffect(ds);
 
         EventHandler<MouseEvent> mouseVEntered = e1 -> {
             sceneV.setCursor(Cursor.HAND);
-            buttonV1.setPrefSize(320,40);
+            buttonV1.setPrefSize(320, 40);
             buttonV1.setLayoutX(545);
             buttonV1.setLayoutY(410);
             buttonV1.setGraphicTextGap(15);
@@ -1165,7 +1130,7 @@ public class Main extends Application {
             sceneV.setCursor(Cursor.DEFAULT);
             buttonV1.setLayoutX(545);
             buttonV1.setLayoutY(410);
-            buttonV1.setPrefSize(320,40);
+            buttonV1.setPrefSize(320, 40);
             buttonV1.setGraphicTextGap(10);
             buttonV1.setStyle(
                     "-fx-background-color: #000000; focused:-fx-background-color: #FFFFFF ;"
@@ -1175,8 +1140,7 @@ public class Main extends Application {
         buttonV1.setOnMouseExited(mouseVExited);
 
 
-
-        Rectangle rectV3= new Rectangle();
+        Rectangle rectV3 = new Rectangle();
         rectV3.setHeight(10);
         rectV3.setWidth(3);
         rectV3.setX(450);
@@ -1190,7 +1154,6 @@ public class Main extends Application {
         tE1.setFill(Color.BLACK);
 
 
-
         HBox hbV1 = new HBox();
         hbV1.getChildren().add(rectV3);
         hbV1.getChildren().add(tV1);
@@ -1198,7 +1161,7 @@ public class Main extends Application {
 
         hbV1.setAlignment(Pos.CENTER_LEFT);
 
-        SubScene subV2 = new SubScene(hbV1,360,50);
+        SubScene subV2 = new SubScene(hbV1, 360, 50);
 
 
         ListView lsV1 = new ListView();
@@ -1208,28 +1171,23 @@ public class Main extends Application {
         lsV1.setStyle("-fx-background-color:#F4F4F4; -fx-control-inner-background:#F4F4F4  ;-fx-control-inner-background-alt:#F4F4F4");
 //        lsE1.onScrollToProperty().addListener();
 
-        int m=4;
-        while(m!=0)
-        {
+        int m = 4;
+        while (m != 0) {
             addOnVote(lsV1);
             m--;
         }
 
 
-
-
-        SubScene subV9 = new SubScene(lsV1,360,400);
+        SubScene subV9 = new SubScene(lsV1, 360, 400);
 
         VBox vbV2 = new VBox();
         vbV2.getChildren().add(subV2);
         vbV2.getChildren().add(subV9);
 
         vbV1.setBackground(Background.EMPTY);
-        SubScene subV3 = new SubScene(vbV2,360,450);
+        SubScene subV3 = new SubScene(vbV2, 360, 450);
         subV3.setLayoutY(55);
         subV3.setLayoutX(55);
-
-
 
 
         groupV.getChildren().add(rectV1);
@@ -1241,7 +1199,6 @@ public class Main extends Application {
         groupV.getChildren().add(buttonV1);
         groupV.getChildren().add(subV1);
         groupV.getChildren().add(subV3);
-
 
 
         //RESULT TAB CONTENTS
@@ -1263,7 +1220,6 @@ public class Main extends Application {
         rectR2.setArcWidth(20);
         rectR2.setArcHeight(20);
         rectR2.setEffect(ds);
-
 
 
         Rectangle rectR3 = new Rectangle();
@@ -1294,11 +1250,11 @@ public class Main extends Application {
         cm.getItems().add("College Election 23");
 
         cm.setValue("Union Election 21");
-        cm.setOnMouseEntered((MouseEvent)->{
+        cm.setOnMouseEntered((MouseEvent) -> {
             sceneR.setCursor(Cursor.HAND);
         });
 
-        cm.setOnMouseExited((MouseEvent)->{
+        cm.setOnMouseExited((MouseEvent) -> {
             sceneR.setCursor(Cursor.DEFAULT);
         });
 
@@ -1329,13 +1285,11 @@ public class Main extends Application {
         hb8.setAlignment(Pos.CENTER_RIGHT);
 
 
-        StackPane sp = new StackPane(rectR2,hb8,hb2);
+        StackPane sp = new StackPane(rectR2, hb8, hb2);
 
-        SubScene sub2 = new SubScene(sp,870,100);
+        SubScene sub2 = new SubScene(sp, 870, 100);
         sub2.setLayoutX(60);
         sub2.setLayoutY(55);
-
-
 
 
         Rectangle rectR4 = new Rectangle();
@@ -1359,7 +1313,7 @@ public class Main extends Application {
         hb3.setBackground(Background.EMPTY);
         hb3.setAlignment(Pos.BOTTOM_CENTER);
 
-        SubScene scR1 = new SubScene(hb3,870,50);
+        SubScene scR1 = new SubScene(hb3, 870, 50);
         scR1.setLayoutX(60);
         scR1.setLayoutY(210);
 
@@ -1373,11 +1327,10 @@ public class Main extends Application {
 
         lsR1.setSelectionModel(null);
 
-        int result =3;
+        int result = 3;
 
-        while (result!=0)
-        {
-            resultList(lsR1,"dinoy raj","chairman",1);
+        while (result != 0) {
+            resultList(lsR1, "dinoy raj", "chairman", 1);
             result--;
         }
 
@@ -1393,15 +1346,13 @@ public class Main extends Application {
         hb5.setBackground(Background.EMPTY);
         hb5.setAlignment(Pos.CENTER);
 
-        SubScene scR3 = new SubScene(hb5,850,6);
+        SubScene scR3 = new SubScene(hb5, 850, 6);
 
 
         lsR1.getItems().add(scR3);
 
 
-
-
-        SubScene scR2 = new SubScene(lsR1,870,200);
+        SubScene scR2 = new SubScene(lsR1, 870, 200);
         scR1.setLayoutX(60);
         scR1.setLayoutY(300);
 
@@ -1412,9 +1363,9 @@ public class Main extends Application {
         vb2.setSpacing(20);
         vb2.setAlignment(Pos.TOP_CENTER);
 
-        StackPane sp1 = new StackPane(rectR4,vb2);
+        StackPane sp1 = new StackPane(rectR4, vb2);
 
-        SubScene sub3 = new SubScene(sp1,870,300);
+        SubScene sub3 = new SubScene(sp1, 870, 300);
         sub3.setLayoutX(60);
         sub3.setLayoutY(200);
 
@@ -1422,8 +1373,6 @@ public class Main extends Application {
         groupR.getChildren().add(rectR1);
         groupR.getChildren().add(sub2);
         groupR.getChildren().add(sub3);
-
-
 
 
         //Children added to main scene (bottom navbar)
@@ -1439,8 +1388,6 @@ public class Main extends Application {
         group.getChildren().add(sceneR);
         group.getChildren().add(sceneV);
         group.getChildren().add(sceneE);
-
-
 
 
         //App icon,name and staged the main scene
@@ -1525,18 +1472,15 @@ public class Main extends Application {
         rc2.setWidth(20);
 
 
-        boolean started=false;
+        boolean started = false;
         HBox hb = new HBox();
         hb.getChildren().add(rectR5);
         hb.getChildren().add(rc1);
         hb.getChildren().add(Ename);
         hb.getChildren().add(rc);
-        if(started)
-        {
+        if (started) {
             hb.getChildren().add(btn1);
-        }
-        else
-        {
+        } else {
             hb.getChildren().add(btn11);
         }
 
@@ -1545,13 +1489,9 @@ public class Main extends Application {
         hb.setBackground(Background.EMPTY);
 
 
-
-
-
-
-        StackPane sp = new StackPane(rectR2,hb);
-        SubScene sc = new SubScene(sp,340,100);
-        sc.setFill(Color.rgb(246,246,246));
+        StackPane sp = new StackPane(rectR2, hb);
+        SubScene sc = new SubScene(sp, 340, 100);
+        sc.setFill(Color.rgb(246, 246, 246));
         lsV1.getItems().add(sc);
     }
 
@@ -1586,40 +1526,40 @@ public class Main extends Application {
         Text Ename = new Text("Election 21");
 
 
-            Button btn1 = new Button();
-            btn1.setText("Started");
-            btn1.setTextFill(Color.WHITE);
-            btn1.setStyle(
-                    "-fx-background-color: #349632; focused:-fx-background-color: #FFFFFF ;"
-            );
-            btn1.setFont(font1);
+        Button btn1 = new Button();
+        btn1.setText("Started");
+        btn1.setTextFill(Color.WHITE);
+        btn1.setStyle(
+                "-fx-background-color: #349632; focused:-fx-background-color: #FFFFFF ;"
+        );
+        btn1.setFont(font1);
 
 
-            Button btn11 = new Button();
-            btn11.setText("Start");
-            btn11.setTextFill(Color.WHITE);
-            btn11.setStyle(
-                    "-fx-background-color: #000000; focused:-fx-background-color: #FFFFFF ;"
-            );
-            btn11.setFont(font1);
+        Button btn11 = new Button();
+        btn11.setText("Start");
+        btn11.setTextFill(Color.WHITE);
+        btn11.setStyle(
+                "-fx-background-color: #000000; focused:-fx-background-color: #FFFFFF ;"
+        );
+        btn11.setFont(font1);
 
-            btn11.setOnMouseEntered(
-                    (MouseEvent) -> {
-                        btn11.setStyle(
-                                "-fx-background-color: #349632; focused:-fx-background-color: #FFFFFF ;"
-                        );
-                        btn11.setCursor(Cursor.HAND);
-                    }
-            );
+        btn11.setOnMouseEntered(
+                (MouseEvent) -> {
+                    btn11.setStyle(
+                            "-fx-background-color: #349632; focused:-fx-background-color: #FFFFFF ;"
+                    );
+                    btn11.setCursor(Cursor.HAND);
+                }
+        );
 
-            btn11.setOnMouseExited(
-                    (MouseEvent) -> {
-                        btn11.setStyle(
-                                "-fx-background-color: #000000; focused:-fx-background-color: #FFFFFF ;"
-                        );
-                        btn11.setCursor(Cursor.DEFAULT);
-                    }
-            );
+        btn11.setOnMouseExited(
+                (MouseEvent) -> {
+                    btn11.setStyle(
+                            "-fx-background-color: #000000; focused:-fx-background-color: #FFFFFF ;"
+                    );
+                    btn11.setCursor(Cursor.DEFAULT);
+                }
+        );
 
 
         Button btn2 = new Button();
@@ -1630,7 +1570,7 @@ public class Main extends Application {
         );
         btn2.setFont(font1);
         btn2.setOnMouseEntered(
-                (MouseEvent)->{
+                (MouseEvent) -> {
                     btn2.setStyle(
                             "-fx-background-color: #EE1320; focused:-fx-background-color: #FFFFFF ;"
                     );
@@ -1639,7 +1579,7 @@ public class Main extends Application {
         );
 
         btn2.setOnMouseExited(
-                (MouseEvent)->{
+                (MouseEvent) -> {
                     btn2.setStyle(
                             "-fx-background-color: #000000; focused:-fx-background-color: #FFFFFF ;"
                     );
@@ -1655,18 +1595,15 @@ public class Main extends Application {
         rc2.setWidth(20);
 
 
-        boolean started=true;
+        boolean started = true;
         HBox hb = new HBox();
         hb.getChildren().add(rectR5);
         hb.getChildren().add(rc1);
         hb.getChildren().add(Ename);
         hb.getChildren().add(rc);
-        if(started)
-        {
+        if (started) {
             hb.getChildren().add(btn1);
-        }
-        else
-        {
+        } else {
             hb.getChildren().add(btn11);
         }
 
@@ -1676,13 +1613,9 @@ public class Main extends Application {
         hb.setBackground(Background.EMPTY);
 
 
-
-
-
-
-        StackPane sp = new StackPane(rectR2,hb);
-        SubScene sc = new SubScene(sp,340,100);
-        sc.setFill(Color.rgb(246,246,246));
+        StackPane sp = new StackPane(rectR2, hb);
+        SubScene sc = new SubScene(sp, 340, 100);
+        sc.setFill(Color.rgb(246, 246, 246));
         lsE1.getItems().add(sc);
 
     }
@@ -1695,13 +1628,11 @@ public class Main extends Application {
         Text tR2 = new Text(C_position);
 
 
-
-
         Button buttonV1 = new Button();
         buttonV1.setFont(font1);
         buttonV1.setText("Won");
         buttonV1.setTextFill(Color.WHITE);
-        buttonV1.setPrefSize(40,15);
+        buttonV1.setPrefSize(40, 15);
         buttonV1.setStyle(
                 "-fx-background-color: #349632; "
         );
@@ -1715,8 +1646,7 @@ public class Main extends Application {
         hb3.setBackground(Background.EMPTY);
         hb3.setAlignment(Pos.BOTTOM_CENTER);
 
-        SubScene scR2 = new SubScene(hb3,850,30);
-
+        SubScene scR2 = new SubScene(hb3, 850, 30);
 
 
         Rectangle rectR5 = new Rectangle();
@@ -1731,12 +1661,11 @@ public class Main extends Application {
         hb5.setBackground(Background.EMPTY);
         hb5.setAlignment(Pos.CENTER);
 
-        SubScene scR3 = new SubScene(hb5,850,6);
+        SubScene scR3 = new SubScene(hb5, 850, 6);
 
 
         l1.getItems().add(scR2);
         l1.getItems().add(scR3);
-
 
 
     }

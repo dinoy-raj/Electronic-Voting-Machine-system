@@ -38,10 +38,43 @@ public class MySQL {
         }
     }
 
-    public void addPost(String ID, String election_id, String name) {
+    public void startElection(String ID) {
         try {
             Statement stmt = connection.createStatement();
-            stmt.executeUpdate("INSERT INTO POSTS VALUES('" + ID + "', " + "'" + election_id + "', '" + name + "');");
+            stmt.executeUpdate("UPDATE ELECTIONS SET isStarted = true WHERE ID = '" + ID + "');");
+        } catch (SQLException e) {
+            e.printStackTrace();
+
+        }
+    }
+
+    public void endElection(String electionID) {
+        try {
+            Statement stmt = connection.createStatement();
+            stmt.executeUpdate("UPDATE ELECTIONS SET isEnded = true WHERE ID = '" + electionID + "');");
+
+            Statement stmt1 = connection.createStatement();
+            stmt.executeQuery("SELECT voter_id FROM CANDIDATES WHERE count = max(count) AND id in (SELECT id from POSTS WHERE election_id = '" + electionID + "');");
+        } catch (SQLException e) {
+            e.printStackTrace();
+
+        }
+    }
+
+    public void addPost(String ID, String election_id, String name, int count) {
+        try {
+            Statement stmt = connection.createStatement();
+            stmt.executeUpdate("INSERT INTO POSTS VALUES('" + ID + "', " + "'" + election_id + "', '" + name + "', " + count + ");");
+        } catch (SQLException e) {
+            e.printStackTrace();
+
+        }
+    }
+
+    public void deletePost(String ID) {
+        try {
+            Statement stmt = connection.createStatement();
+            stmt.executeUpdate("DELETE FROM POSTS WHERE id = '" + ID + "');");
         } catch (SQLException e) {
             e.printStackTrace();
 
@@ -52,6 +85,16 @@ public class MySQL {
         try {
             Statement stmt = connection.createStatement();
             stmt.executeUpdate("INSERT INTO CANDIDATES VALUES('" + ID + "', '" + post_id + "', '" + voter_id + "', " + count + ");");
+        } catch (SQLException e) {
+            e.printStackTrace();
+
+        }
+    }
+
+    public void deleteCandidate(String ID) {
+        try {
+            Statement stmt = connection.createStatement();
+            stmt.executeUpdate("DELETE FROM CANDIDATES WHERE id = '" + ID + "');");
         } catch (SQLException e) {
             e.printStackTrace();
 
@@ -88,7 +131,6 @@ public class MySQL {
         }
     }
 
-
     public ResultSet retrieveData(String table) {
         try {
             Statement stmt = connection.createStatement();
@@ -122,6 +164,28 @@ public class MySQL {
         return null;
     }
 
+    public ResultSet getCandidate(String voterID) {
+        try {
+            Statement stmt = connection.createStatement();
+            return stmt.executeQuery("SELECT * FROM VOTERS WHERE voter_id = '" + voterID + "';");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    public ResultSet getPosts(String electionID) {
+        try {
+            Statement stmt = connection.createStatement();
+            return stmt.executeQuery("SELECT * FROM POSTS WHERE election_id = '" + electionID + "';");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
     public HashMap<String, Object> startVote(String voterID, String password) {
         try {
             HashMap<String, Object> map = new HashMap<>();
@@ -134,6 +198,12 @@ public class MySQL {
                 HashMap<String, Object> temp = new HashMap<>();
 
                 temp.put("error", "isNotStarted");
+
+                return temp;
+            } else if (!rs.getBoolean("isEnded")) {
+                HashMap<String, Object> temp = new HashMap<>();
+
+                temp.put("error", "isEnded");
 
                 return temp;
             }
